@@ -1,0 +1,28 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Local Vector DB data
+chroma_data/
+chroma_db/
+*.sqlite3
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Reports generated during eval
+reports/*.json
+!reports/.gitkeep
+
+# Legacy/raw input directory
+RBI Corpus/
