@@ -12,6 +12,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from src.ingest import RegulatoryPDFParser, RegulatoryClause
 from src.chunker import FixedSizeChunker, RecursiveChunker, ClauseAwareChunker, create_chunker
 from src.vector_store import RegulatoryVectorStore
+from eval.metrics import hit_at_k, reciprocal_rank, is_clause_match
+from eval.judge import JudgeCalibration
 
 
 @pytest.fixture(scope="session")
@@ -116,3 +118,28 @@ def test_golden_dataset():
         else:
             assert r["source_document"].endswith(".pdf")
             assert r["clause_number"].startswith("Paragraph ")
+
+
+def test_retrieval_metrics():
+    mock_chunks = [
+        {"metadata": {"clause_number": "Paragraph 10"}, "text": "10. Overview"},
+        {"metadata": {"clause_number": "Paragraph 13"}, "text": "13. The capital requirements"},
+        {"metadata": {"clause_number": "Paragraph 16"}, "text": "16. The supervisory risk weights"},
+    ]
+    assert hit_at_k(mock_chunks, "Paragraph 10", k=1) == 1.0
+    assert hit_at_k(mock_chunks, "Paragraph 13", k=1) == 0.0
+    assert hit_at_k(mock_chunks, "Paragraph 13", k=3) == 1.0
+    assert reciprocal_rank(mock_chunks, "Paragraph 13") == 0.5
+    assert reciprocal_rank(mock_chunks, "Paragraph 99") == 0.0
+
+
+def test_baseline_report_exists():
+    rep_path = Path("reports/baseline_run_v1.json")
+    assert rep_path.exists(), "Baseline report does not exist"
+    with open(rep_path, "r", encoding="utf-8") as f:
+        rep = json.load(f)
+    assert "retrieval_metrics" in rep
+    assert "generation_metrics" in rep
+    assert "judge_calibration_20" in rep
+    assert rep["retrieval_metrics"]["mean_hit_at_3"] > 0.5
+    assert rep["judge_calibration_20"]["percentage_agreement"] >= 80.0

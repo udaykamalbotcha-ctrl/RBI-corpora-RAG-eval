@@ -21,8 +21,9 @@ Thumbs.db
 .idea/
 
 # Reports generated during eval
-reports/*.json
+reports/*.log
 !reports/.gitkeep
+!reports/baseline_run_v1.json
 
 # Legacy/raw input directory
 RBI Corpus/

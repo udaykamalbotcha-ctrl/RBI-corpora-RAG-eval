@@ -1,0 +1,1862 @@
+{
+  "benchmark_meta": {
+    "run_id": "baseline_run_v1",
+    "timestamp": "2026-11-07T21:05:54.378176+00:00",
+    "collection_name": "rbi_clause_aware",
+    "embedding_model": "all-MiniLM-L6-v2",
+    "total_questions": 60,
+    "duration_seconds": 9.98
+  },
+  "retrieval_metrics": {
+    "total_queries": 60,
+    "mean_hit_at_1": 0.6,
+    "mean_hit_at_3": 0.74,
+    "mean_hit_at_5": 0.84,
+    "mrr": 0.6843,
+    "by_category": {
+      "factual_single_clause": {
+        "count": 25.0,
+        "mean_hit_at_1": 0.68,
+        "mean_hit_at_3": 0.76,
+        "mean_hit_at_5": 0.84,
+        "mrr": 0.7293
+      },
+      "multi_clause_calculation": {
+        "count": 15.0,
+        "mean_hit_at_1": 0.6,
+        "mean_hit_at_3": 0.9333,
+        "mean_hit_at_5": 0.9333,
+        "mrr": 0.7556
+      },
+      "paraphrased_adversarial": {
+        "count": 10.0,
+        "mean_hit_at_1": 0.4,
+        "mean_hit_at_3": 0.4,
+        "mean_hit_at_5": 0.7,
+        "mrr": 0.465
+      },
+      "unanswerable_refusal": {
+        "count": 10.0,
+        "refusal_accuracy": 1.0
+      }
+    }
+  },
+  "generation_metrics": {
+    "mean_faithfulness": 0.8389,
+    "mean_answer_relevance": 0.7941,
+    "citation_precision_rate": 0.65,
+    "overall_pass_rate": 0.6167
+  },
+  "judge_calibration_20": {
+    "sample_size": 20,
+    "agreed_count": 17,
+    "percentage_agreement": 85.0,
+    "cohens_kappa": 0.7059,
+    "calibration_status": "CALIBRATED (>=85%)"
+  },
+  "detailed_results": [
+    {
+      "id": "q_001",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "What is the discount scalar value prescribed for the reduced version of the BA-CVA?",
+      "target_clause": "Paragraph 13",
+      "expected_answer": "The discount scalar (DS) for the reduced version of the BA-CVA is 0.65.",
+      "generated_answer": "Under Paragraph 13 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 13. The capital requirements for CVA risk under the reduced version of the BA-CVA is calculated using the following formula: 𝐶𝐶𝐶𝐶𝐶𝐶 𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟 = 𝐷𝐷𝐷𝐷 × 𝐾𝐾𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟 Where, 𝐷𝐷𝐷𝐷 is the discount scalar = 0.65; and 𝐾𝐾𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟𝑟 is calculated as provided in paragraph 14 of these Directions.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 13",
+        "top_hit_score": 0.71
+      },
+      "judge_metrics": {
+        "question_id": "q_001",
+        "faithfulness_score": 0.5,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 13...' (sim=0.19)",
+        "answer_relevance_score": 0.7768,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.68).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "13",
+          "14"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_002",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "What is the supervisory risk weight assigned to Financials (including government-backed financials) under Table 1 of the CVA Directions for Investment Grade (IG)?",
+      "target_clause": "Paragraph 16",
+      "expected_answer": "Under Table 1 of the CVA Directions, Financials (including government-backed financials) of Investment Grade (IG) credit quality are assigned a supervisory risk weight of 5.0%.",
+      "generated_answer": "Under Paragraph 16 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (a) Credit rating below BBB / Baa -shall be considered as HY. For the purpose of mapping external ratings assigned by Eligible Credit Rating Agencies (ECRA), a bank shall refer to Table 20 and Table 22 of the Reserve Bank of India (Commercial Banks – Capital Charge for Credit Risk – Standardised Approach) Directions, 2026, as amended from time to time, and shall use the rating mapping specified in the respective tables. The supervisory risk weight shall, however, be determined in accordance with Table 1 of these Directions.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 16",
+        "top_hit_score": 0.6964
+      },
+      "judge_metrics": {
+        "question_id": "q_002",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.7109,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.62).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "16",
+          "20",
+          "22",
+          "1"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_003",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "What is the supervisory risk weight for Sovereigns, central banks, and multilateral development banks classified as Investment Grade under Table 1 of CVA Directions?",
+      "target_clause": "Paragraph 16",
+      "expected_answer": "Sovereigns including central banks and multilateral development banks with Investment Grade (IG) credit quality receive a supervisory risk weight of 0.5%.",
+      "generated_answer": "Under Paragraph 16 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (f) For the purpose of determining the credit quality of a counterparty under these Directions, a bank shall use the issuer rating applicable to that counterparty. Table 1 - Supervisory risk weights Sr. No.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 16",
+        "top_hit_score": 0.733
+      },
+      "judge_metrics": {
+        "question_id": "q_003",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.703,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.61).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "16",
+          "1"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_004",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "What is the supervisory risk weight for Technology and telecommunications counterparties under Table 1 of CVA Directions for High Yield (HY) and Non-Rated (NR)?",
+      "target_clause": "Paragraph 16",
+      "expected_answer": "For Technology and telecommunications counterparties classified as High Yield (HY) or Non-Rated (NR), the supervisory risk weight is 5.5%.",
+      "generated_answer": "Under Paragraph 16 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (f) For the purpose of determining the credit quality of a counterparty under these Directions, a bank shall use the issuer rating applicable to that counterparty. Table 1 - Supervisory risk weights Sr. No.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 16",
+        "top_hit_score": 0.7036
+      },
+      "judge_metrics": {
+        "question_id": "q_004",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.6587,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.57).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "16",
+          "1"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_005",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "What is the supervisory risk weight for Health care, utilities, professional and technical activities for Investment Grade counterparties under Table 1?",
+      "target_clause": "Paragraph 16",
+      "expected_answer": "For Health care, utilities, professional and technical activities classified as Investment Grade (IG), the supervisory risk weight is 1.5%.",
+      "generated_answer": "Under Paragraph 12 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Directions, 2025.pdf, (44) Supervisory Factors.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.3333333333333333,
+        "top_hit_clause": "Paragraph 12",
+        "top_hit_score": 0.6205
+      },
+      "judge_metrics": {
+        "question_id": "q_005",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.4128,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.36).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "12"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_006",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "When do the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026 come into effect?",
+      "target_clause": "Paragraph 2",
+      "expected_answer": "These Directions shall come into effect from April 1, 2027.",
+      "generated_answer": "Under Paragraph 1 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 1. These Directions shall be called the Reserve Bank of India ( Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 1",
+        "top_hit_score": 0.8405
+      },
+      "judge_metrics": {
+        "question_id": "q_006",
+        "faithfulness_score": 0.5,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 1...' (sim=0.30)",
+        "answer_relevance_score": 0.9506,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.83).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "1"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_007",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "What is the aggregate notional threshold of non-centrally cleared derivatives below which a bank may adopt the alternate treatment for CVA capital requirements?",
+      "target_clause": "Paragraph 8",
+      "expected_answer": "A bank whose aggregate notional amount of non-centrally cleared derivatives, on a consolidated group-wide basis, is less than or equal to ₹ 10 lakh crore as at the reporting date may opt to adopt the alternate treatment.",
+      "generated_answer": "Under Paragraph 8 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 8. A bank whose aggregate notional amount of non -centrally cleared derivatives , on a consolidated group-wide basis, is less than or equal to ₹ 10 lakh crore as at the reporting date, m ay opt not to calculate its CVA capital requirements using the BA-CVA and may instead adopt an alternative treatment. Provided that, the supervisory authority may not permit this option for a bank, if it determines that CVA risk resulting from the bank’s derivative positions materially contributes to the bank’s overall risk.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 8",
+        "top_hit_score": 0.8194
+      },
+      "judge_metrics": {
+        "question_id": "q_007",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 8...' (sim=0.19)",
+        "answer_relevance_score": 0.9388,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.82).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "8"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_008",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "Under the alternate treatment, how is the capital requirement for CVA risk determined relative to counterparty credit risk (CCR)?",
+      "target_clause": "Paragraph 9",
+      "expected_answer": "Under the alternate treatment, a bank sets its CVA capital requirement equal to 100 per cent of its capital requirement for counterparty credit risk (CCR) computed under the SA-CCR framework.",
+      "generated_answer": "Under Paragraph 9 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 9. The capital requirement for CVA risk under the alternate treatment is as follows: (1) A bank shall set its CVA capital requirement equal to 100 per cent of its capital requirement for counterparty credit risk (CCR), computed as per the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026. (2) A bank is not allowed to recognise CVA hedges.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 9",
+        "top_hit_score": 0.8647
+      },
+      "judge_metrics": {
+        "question_id": "q_008",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 9...' (sim=0.23)",
+        "answer_relevance_score": 0.9642,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.84).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "9"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_009",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "What is the supervisory value of the alpha multiplier used in the SA-CCR exposure calculation?",
+      "target_clause": "Paragraph 10",
+      "expected_answer": "The supervisory value of alpha is set at 1.4.",
+      "generated_answer": "Under Paragraph 9 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Directions, 2025.pdf, 9. Computation of exposure The SA-CCR shall be used for computing Exposure at Default (EAD) for OTC derivatives, exchange -traded derivatives , and long settlement transactions. Exposure shall be calculated separately for each netting set.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 9",
+        "top_hit_score": 0.5981
+      },
+      "judge_metrics": {
+        "question_id": "q_009",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2025.pdf, 9...' (sim=0.21)",
+        "answer_relevance_score": 0.6741,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.59).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "9"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_010",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "What is the floor applied to the effective maturity (M_NS) for a netting set under the CVA Framework Directions?",
+      "target_clause": "Paragraph 17",
+      "expected_answer": "The effective maturity (M_NS) is subject to a regulatory floor of one year (1 year).",
+      "generated_answer": "Under Paragraph 17 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (4) For transactions that are part of a netting agreement, the effective maturity of the netting set M NS shall be the weighted average maturity.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 17",
+        "top_hit_score": 0.7105
+      },
+      "judge_metrics": {
+        "question_id": "q_010",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.7808,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.68).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "17"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_011",
+      "type": "factual_single_clause",
+      "difficulty": "Medium",
+      "question": "What interest rate is prescribed for discounting in the supervisory discount factor formula under BA-CVA?",
+      "target_clause": "Paragraph 15",
+      "expected_answer": "The interest rate used for discounting is set at 5 per cent (0.05), appearing in the formula DF_NS = (1 - e^(-0.05*M_NS)) / (0.05*M_NS).",
+      "generated_answer": "Under Paragraph 15 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (b) DF is the supervisory discount factor averaged over time between today and the netting set's effective maturity date. The interest rate used for discounting is set at 5 per cent, hence 0.05 in the formula. The product of EAD and effective maturity in the B A-CVA formula is a proxy for the area under the discounted expected exposure profile of the netting set.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 15",
+        "top_hit_score": 0.7449
+      },
+      "judge_metrics": {
+        "question_id": "q_011",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.8098,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.70).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "15"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_012",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "Are trades pertaining to Securities Financing Transactions (SFTs) included in the calculation of the CVA capital charge?",
+      "target_clause": "Paragraph 6",
+      "expected_answer": "No. Trades pertaining to Securities Financing Transactions (SFTs) shall be excluded from the calculation of the CVA capital charge.",
+      "generated_answer": "Under Paragraph 6 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (CVA) risk on a standalone basis for all covered transactions in both banking book and trading book. It includes CVA for a bank’s entire portfolio of covered transactions and eligible CVA hedges. Trades pertaining to SFTs shall be excluded from the calculation of the CVA capital charge.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 6",
+        "top_hit_score": 0.7535
+      },
+      "judge_metrics": {
+        "question_id": "q_012",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.8364,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.73).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "6"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_013",
+      "type": "factual_single_clause",
+      "difficulty": "Medium",
+      "question": "What minimum Margin Period of Risk (MPOR) can a clearing member bank use when calculating exposure to clients for cleared transactions?",
+      "target_clause": "Paragraph 6",
+      "expected_answer": "A clearing member may calculate its exposure to clients using an MPOR of at least five business days for the purpose of computing exposure at default under SA-CCR.",
+      "generated_answer": "Under Paragraph 6 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (2) A bank that is a clearing member of a CCP shall capitalise its CVA risk exposure to clients as bilateral trades, irrespective of whether the clearing member guarantees the trade or acts as an intermediary between the client and the CCP. However, to recognise the shorter close- out period applicable to cleared transactions, a clearing member may calculate its exposure to clients using an MPOR of at least five business days for the purpose of computing the exposure at default under the SA -CCR framework. The resulting exposure at default shall be used for the calculation of the CVA capital requirement.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 6",
+        "top_hit_score": 0.7526
+      },
+      "judge_metrics": {
+        "question_id": "q_013",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.8323,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.72).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "6"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_014",
+      "type": "factual_single_clause",
+      "difficulty": "Medium",
+      "question": "What is the formula for Replacement Cost (RC) for unmargined netting sets under SA-CCR?",
+      "target_clause": "Paragraph 11",
+      "expected_answer": "For unmargined transactions, RC = max{V - C; 0}, where V is the current market value of derivative transactions in the netting set and C is the haircut value of net collateral held.",
+      "generated_answer": "Under Paragraph 65 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, 65. The CCR exposure for the netting set would be calculated using the formula set out in paragraph 10(1) of the Directions, as under: 𝐸𝐸𝑀𝑀𝐷𝐷 = 𝑎𝑎𝑎𝑎𝐸𝐸ℎ𝑎𝑎 ∗ (𝑅𝑅𝑅𝑅 + 𝑃𝑃𝑃𝑃𝐸𝐸) = 1.4 ∗ (0 + 121.89) = 170.64 II. Illustrative examples on e ffect of standard margin agreements on the calculation of replacement cost with SA-CCR.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.5,
+        "top_hit_clause": "Paragraph 65",
+        "top_hit_score": 0.7735
+      },
+      "judge_metrics": {
+        "question_id": "q_014",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 65...' (sim=0.20)",
+        "answer_relevance_score": 0.7928,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.69).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "65",
+          "10(1)"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_015",
+      "type": "factual_single_clause",
+      "difficulty": "Medium",
+      "question": "What external credit rating threshold delineates High Yield (HY) from Investment Grade (IG) for CVA risk weights?",
+      "target_clause": "Paragraph 16",
+      "expected_answer": "External credit ratings below BBB- / Baa3 are considered High Yield (HY).",
+      "generated_answer": "Under Paragraph 16 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (a) Credit rating below BBB / Baa -shall be considered as HY. For the purpose of mapping external ratings assigned by Eligible Credit Rating Agencies (ECRA), a bank shall refer to Table 20 and Table 22 of the Reserve Bank of India (Commercial Banks – Capital Charge for Credit Risk – Standardised Approach) Directions, 2026, as amended from time to time, and shall use the rating mapping specified in the respective tables. The supervisory risk weight shall, however, be determined in accordance with Table 1 of these Directions.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 16",
+        "top_hit_score": 0.6818
+      },
+      "judge_metrics": {
+        "question_id": "q_015",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.7305,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.64).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "16",
+          "20",
+          "22",
+          "1"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_016",
+      "type": "factual_single_clause",
+      "difficulty": "Medium",
+      "question": "How must a bank treat plus (+) or minus (-) notations attached to external credit ratings when determining CVA supervisory risk weights?",
+      "target_clause": "Paragraph 16",
+      "expected_answer": "Where a '+' or '−' notation is attached to a rating, the corresponding risk weight for the main rating category shall apply.",
+      "generated_answer": "Under Paragraph 16 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (a) Credit rating below BBB / Baa -shall be considered as HY. For the purpose of mapping external ratings assigned by Eligible Credit Rating Agencies (ECRA), a bank shall refer to Table 20 and Table 22 of the Reserve Bank of India (Commercial Banks – Capital Charge for Credit Risk – Standardised Approach) Directions, 2026, as amended from time to time, and shall use the rating mapping specified in the respective tables. The supervisory risk weight shall, however, be determined in accordance with Table 1 of these Directions.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 16",
+        "top_hit_score": 0.7366
+      },
+      "judge_metrics": {
+        "question_id": "q_016",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.6963,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.61).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "16",
+          "20",
+          "22",
+          "1"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_017",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "Are CVA hedges permitted to be recognized under the alternate treatment in Paragraph 9 of the CVA Directions?",
+      "target_clause": "Paragraph 9",
+      "expected_answer": "No, a bank is not allowed to recognise CVA hedges under the alternate treatment.",
+      "generated_answer": "Under Paragraph 18 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 18. The full version of BA -CVA recognises the effect of counterparty credit spread hedges. The transactions used for the purpose of mitigating the counterparty credit spread component of CVA risk, and managed as such by a bank, shall be eligible hedges.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 18",
+        "top_hit_score": 0.6854
+      },
+      "judge_metrics": {
+        "question_id": "q_017",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 18...' (sim=0.20)",
+        "answer_relevance_score": 0.7228,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.63).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "18"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_018",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "Which categories of commercial banking companies are explicitly excluded from the applicability of the RBI CVA Framework Directions, 2026?",
+      "target_clause": "Paragraph 3",
+      "expected_answer": "Small Finance Banks, Payments Banks, and Local Area Banks are explicitly excluded from the applicability of the CVA Framework Directions.",
+      "generated_answer": "Under Paragraph 8 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 8. A bank whose aggregate notional amount of non -centrally cleared derivatives , on a consolidated group-wide basis, is less than or equal to ₹ 10 lakh crore as at the reporting date, m ay opt not to calculate its CVA capital requirements using the BA-CVA and may instead adopt an alternative treatment. Provided that, the supervisory authority may not permit this option for a bank, if it determines that CVA risk resulting from the bank’s derivative positions materially contributes to the bank’s overall risk.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.2,
+        "top_hit_clause": "Paragraph 8",
+        "top_hit_score": 0.6409
+      },
+      "judge_metrics": {
+        "question_id": "q_018",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 8...' (sim=0.19)",
+        "answer_relevance_score": 0.779,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.68).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "8"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_019",
+      "type": "factual_single_clause",
+      "difficulty": "Medium",
+      "question": "What is the supervisory risk weight for the 'Other sectors' category for High Yield (HY) and Non-Rated (NR) counterparties under Table 1?",
+      "target_clause": "Paragraph 16",
+      "expected_answer": "Under Table 1, the supervisory risk weight for the 'Other sectors' category for High Yield (HY) and Non-Rated (NR) counterparties is 12.0%.",
+      "generated_answer": "Under Paragraph 16 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (c) Where there are no external ratings, the risk weights corresponding to NR is to be applied. (d) “A bank shall put in place an internal policy, approved by the appropriate authority, governing the granular classification of sectors, with such classification mapped to the sectors specified in Table 1. The policy shall be applied consistently across all counterparties.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 16",
+        "top_hit_score": 0.6473
+      },
+      "judge_metrics": {
+        "question_id": "q_019",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.6679,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.58).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "16",
+          "1"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_020",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "What are the five asset classes to which derivative transactions must be attributed under the SA-CCR methodology?",
+      "target_clause": "Paragraph 12",
+      "expected_answer": "The five asset classes under SA-CCR are interest rate, foreign exchange, credit, equity, and commodity.",
+      "generated_answer": "Under Paragraph 12 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Directions, 2025.pdf, (8) Following table provides examples of the asset class allocation for a selection of derivative trades: Table 1 Derivative Transaction Primary Risk Driver Asset Class Interest Rate Swap Interest rate curve Interest rate FX call option FX rate FX Credit Default Swap Credit of reference entity Credit.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 12",
+        "top_hit_score": 0.6881
+      },
+      "judge_metrics": {
+        "question_id": "q_020",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.7641,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.66).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "12",
+          "1"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_021",
+      "type": "factual_single_clause",
+      "difficulty": "Medium",
+      "question": "How is 'Credit Valuation Adjustment' (CVA) defined in Paragraph 4(3) of the CVA Framework Directions?",
+      "target_clause": "Paragraph 4",
+      "expected_answer": "CVA is defined as a counterparty-level adjustment reflecting the adjustment to the default risk-free price of a derivative or SFT due to a potential default of the counterparty, accounting for credit risk of contracting parties.",
+      "generated_answer": "Under Paragraph 4 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (3) ‘Credit Valuation Adjustment’ (CVA), is specified at a counterparty level, and reflects the adjustment to default risk -free price of a derivative or Security F inancing Transaction.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 4",
+        "top_hit_score": 0.8866
+      },
+      "judge_metrics": {
+        "question_id": "q_021",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.96,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.83).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "4"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_022",
+      "type": "factual_single_clause",
+      "difficulty": "Medium",
+      "question": "How is 'CVA risk' defined in the RBI Directions, 2026?",
+      "target_clause": "Paragraph 4",
+      "expected_answer": "'CVA risk' is the risk of losses arising from change in CVA values in response to changes in counterparty credit spreads and market risk factors that drive prices of derivative transactions and SFTs.",
+      "generated_answer": "Under Paragraph 16 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (e) A bank shall use the ratings assigned by Eligible Credit Rating Agencies (ECRA), as specified in pa ragraph 24 of the Reserve Bank of India (Commercial Banks – Capital Charge for Credit Risk – Standardised Approach) Directions, 2026, as amended from time to time, for the purpose of assigning supervisory risk weights for CVA risk.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.2,
+        "top_hit_clause": "Paragraph 16",
+        "top_hit_score": 0.6982
+      },
+      "judge_metrics": {
+        "question_id": "q_022",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.7828,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.68).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "16"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_023",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "What statutory definition of 'Derivative' is adopted under Paragraph 4(5) of the CVA Framework Directions?",
+      "target_clause": "Paragraph 4",
+      "expected_answer": "'Derivative' shall have the same meaning as assigned to it in Section 45U(a) of the Reserve Bank of India Act, 1934.",
+      "generated_answer": "Under Paragraph 4 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (5) ‘Derivative’ shall have the same meaning as assigned to it in S ection 45U.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 4",
+        "top_hit_score": 0.6767
+      },
+      "judge_metrics": {
+        "question_id": "q_023",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.7461,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.65).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "4"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_024",
+      "type": "factual_single_clause",
+      "difficulty": "Easy",
+      "question": "On what basis must a bank calculate capital requirements for CVA risk across its banking book and trading book?",
+      "target_clause": "Paragraph 6",
+      "expected_answer": "A bank shall calculate capital requirements for CVA risk on a standalone basis for all covered transactions in both banking book and trading book.",
+      "generated_answer": "Under Paragraph 1 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 1. Table CVAA - General qualitative disclosure requirements related to CVA Purpose: To provide a description of the risk management objectives and policies for CVA risk. Scope of application: The table is mandatory for a bank that is subject to CVA capital requirements, including a bank which is qualified and has elected to set its capital requirement for CVA at 100 per cent of its counterparty credit risk charge as per the Alternate Treatment in accordance with paragraphs 8 and 9 of these Directions.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 1",
+        "top_hit_score": 0.7697
+      },
+      "judge_metrics": {
+        "question_id": "q_024",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 1...' (sim=0.18)",
+        "answer_relevance_score": 0.8373,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.73).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "1",
+          "CV",
+          "i"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_025",
+      "type": "factual_single_clause",
+      "difficulty": "Medium",
+      "question": "What is the regulatory treatment of a derivative transaction that is subsequently novated to a Qualifying Central Counterparty (QCCP)?",
+      "target_clause": "Paragraph 6",
+      "expected_answer": "The resulting exposure upon novation is treated in the same manner as an exposure arising from a transaction undertaken directly with the QCCP and is excluded from the scope of Covered Transactions.",
+      "generated_answer": "Under Paragraph 6 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (1) Where a derivative transaction is subsequently novated to a QCCP, the resulting exposure upon novation shall be treated in the same manner as an exposure arising from a transaction undertaken directly with the QCCP and shall, accordingly, be excluded from the scope of Covered Transactions.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 6",
+        "top_hit_score": 0.7308
+      },
+      "judge_metrics": {
+        "question_id": "q_025",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.8154,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.71).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "6"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_026",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "How is Replacement Cost (RC) calculated for a margined netting set under SA-CCR, and what parameters make up the formula?",
+      "target_clause": "Paragraph 11",
+      "expected_answer": "For margined transactions, RC = max{V - C; TH + MTA - NICA; 0}, where V is current market value, C is haircut net collateral held, TH is margin threshold, MTA is minimum transfer amount, and NICA is net independent collateral amount.",
+      "generated_answer": "Under Paragraph 65 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, 65. The CCR exposure for the netting set would be calculated using the formula set out in paragraph 10(1) of the Directions, as under: 𝐸𝐸𝑀𝑀𝐷𝐷 = 𝑎𝑎𝑎𝑎𝐸𝐸ℎ𝑎𝑎 ∗ (𝑅𝑅𝑅𝑅 + 𝑃𝑃𝑃𝑃𝐸𝐸) = 1.4 ∗ (0 + 121.89) = 170.64 II. Illustrative examples on e ffect of standard margin agreements on the calculation of replacement cost with SA-CCR.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.5,
+        "top_hit_clause": "Paragraph 65",
+        "top_hit_score": 0.8308
+      },
+      "judge_metrics": {
+        "question_id": "q_026",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 65...' (sim=0.20)",
+        "answer_relevance_score": 0.8684,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.76).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "65",
+          "10(1)"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_027",
+      "type": "multi_clause_calculation",
+      "difficulty": "Medium",
+      "question": "How is exposure at default (EAD) calculated from Replacement Cost (RC) and Potential Future Exposure (PFE) under SA-CCR overview rules?",
+      "target_clause": "Paragraph 10",
+      "expected_answer": "Exposure at default is calculated as EAD = alpha * (RC + PFE), where alpha = 1.4, RC is calculated under Paragraph 11, and PFE is calculated under Paragraph 12.",
+      "generated_answer": "Under Paragraph 9 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Directions, 2025.pdf, 9. Computation of exposure The SA-CCR shall be used for computing Exposure at Default (EAD) for OTC derivatives, exchange -traded derivatives , and long settlement transactions. Exposure shall be calculated separately for each netting set.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.5,
+        "top_hit_clause": "Paragraph 9",
+        "top_hit_score": 0.7807
+      },
+      "judge_metrics": {
+        "question_id": "q_027",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2025.pdf, 9...' (sim=0.21)",
+        "answer_relevance_score": 0.8197,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.71).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "9"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_028",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "Why does SA-CCR cap the exposure of a margined netting set at the exposure of the same netting set calculated on an unmargined basis?",
+      "target_clause": "Paragraph 10",
+      "expected_answer": "Under Paragraph 10(2), the cap addresses the issue resulting from a high threshold (TH) under a margin agreement which could otherwise lead to higher values of RC for margined transactions vis-a-vis unmargined transactions.",
+      "generated_answer": "Under Paragraph 10 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, (2) A bank shall calculate the RC and the PFE differently for margined and unmargined netting sets. A bank shall cap the exposure for a margined netting set at the exposure of the same netting set calculated on an unmargined basis. For all regulatory purposes, the exposure computation for applicable banks shall be based on the SA-CCR methodology instead of CEM and shall be consistently applied.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 10",
+        "top_hit_score": 0.7399
+      },
+      "judge_metrics": {
+        "question_id": "q_028",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.8047,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.70).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "10"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_029",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "How is effective notional (D) calculated for an individual derivative trade in SA-CCR, and what are its constituent parameters?",
+      "target_clause": "Paragraph 12",
+      "expected_answer": "Effective notional is calculated as D = d * MF * delta, where d is the adjusted notional reflecting trade size, MF is the maturity factor reflecting the time horizon, and delta is the supervisory delta accounting for trade direction and non-linearity.",
+      "generated_answer": "Under Paragraph 12 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, (D) for each derivative (i.e., each individual trade) in the netting set. The effective notional is a measure of the sensitivity of the trade to movements in underlying risk factors (i.e., interest rates, exchange rates, credit spreads, equity prices , and commodity prices). The effective notional is calculated as the product of the following parameters (i.e., D = d * MF * δ).",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 12",
+        "top_hit_score": 0.6824
+      },
+      "judge_metrics": {
+        "question_id": "q_029",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, (D) for each derivative (i.e., each individual tra...' (sim=0.43)",
+        "answer_relevance_score": 0.7932,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.69).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "12"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_030",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "How does a bank calculate effective maturity (M) for an instrument with a contractual cash flow schedule, and what is the conservative fallback if cash flows cannot be determined?",
+      "target_clause": "Paragraph 17",
+      "expected_answer": "Effective maturity M is calculated as the cash-flow weighted time sum sum(t*CF_t)/sum(CF_t). If contracted payments cannot be calculated, the bank must use nominal maturity (the maximum remaining time in years to fully discharge contractual obligations).",
+      "generated_answer": "Under Paragraph 17 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (2) For an instrument subject to a determined cash flow schedule, effective maturity M for the instrument is defined as follows: 𝐸𝐸𝐸𝐸𝐸𝐸𝑒𝑒𝐸𝐸𝐸𝐸𝐸𝐸𝐸𝐸𝑒𝑒 𝑚𝑚𝑚𝑚𝐸𝐸𝑚𝑚𝑚𝑚𝐸𝐸𝐸𝐸𝑚𝑚 𝐸𝐸𝑓𝑓𝑚𝑚 𝑚𝑚𝑎𝑎 𝐸𝐸𝑎𝑎𝑖𝑖𝐸𝐸𝑚𝑚𝑚𝑚𝑚𝑚𝑒𝑒𝑎𝑎𝐸𝐸 = 𝑀𝑀 = � 𝐸𝐸 ∗ 𝐶𝐶𝐷𝐷𝑡𝑡 𝑡𝑡 � 𝐶𝐶𝐷𝐷𝑡𝑡 𝑡𝑡 � Where, CF denotes the cash flows (principal, interest payments , and fees) contractually payable by the borrower / counterparty in period t; Provided that, if the bank is not in a position to calculate the effective maturity of the contracted payments as noted above, it shall use a more conservative measure of M such as that M equals the maximum remaining time (in years) that the borrower / counterparty is permitted to take to fully discharge its contractual obligation (principal, interest, and fees) under the terms of the agreement. Normally, this will correspond to the nominal maturity of the instrument.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 17",
+        "top_hit_score": 0.7003
+      },
+      "judge_metrics": {
+        "question_id": "q_030",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.8639,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.75).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "17"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_031",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "Under Paragraph 16 of CVA Directions, what rating selection hierarchy must a bank apply when a counterparty has multiple external credit ratings?",
+      "target_clause": "Paragraph 16",
+      "expected_answer": "If a counterparty has two ratings, the worst rating applies. If there are three or more ratings with different risk weights, the ratings corresponding to the two lowest risk weights are selected, and the higher of those two risk weights is applied.",
+      "generated_answer": "Under Paragraph 16 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (b) In case a counterparty has more than one credit rating, the worst of the ratings shall be used to decide on the credit quality and resultant risk weight. Where there are three or more ratings with different risk weights, the ratings corresponding to the two lowest risk weights should be referred to and the higher of those two risk weights shall be applied.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 16",
+        "top_hit_score": 0.7048
+      },
+      "judge_metrics": {
+        "question_id": "q_031",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.777,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.68).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "16"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_032",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "How does a bank determine the supervisory risk weight for a corporate counterparty that cannot be mapped to any sector listed in Table 1?",
+      "target_clause": "Paragraph 16",
+      "expected_answer": "Under Paragraph 16(d), where a counterparty cannot be assigned to any of the sectors in Table 1, it must be assigned to 'Other sectors'. In Table 1, Other Sectors has a risk weight of 5.0% for IG and 12.0% for HY and NR.",
+      "generated_answer": "Under Paragraph 15 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, (5) of these Directions, a bank shall calculate the risk weighted assets.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.5,
+        "top_hit_clause": "Paragraph 15",
+        "top_hit_score": 0.649
+      },
+      "judge_metrics": {
+        "question_id": "q_032",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.6105,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.53).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "15"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_033",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "How is the supervisory discount factor (DF_NS) calculated for a netting set, and how is the 5 percent interest rate parameter justified?",
+      "target_clause": "Paragraph 15",
+      "expected_answer": "DF_NS = (1 - e^(-0.05*M_NS))/(0.05*M_NS). The 5% (0.05) rate accounts for average discounting between today and effective maturity date, compensating for lack of discounting in unweighted maturity profiles.",
+      "generated_answer": "Under Paragraph 15 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (b) DF is the supervisory discount factor averaged over time between today and the netting set's effective maturity date. The interest rate used for discounting is set at 5 per cent, hence 0.05 in the formula. The product of EAD and effective maturity in the B A-CVA formula is a proxy for the area under the discounted expected exposure profile of the netting set.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 15",
+        "top_hit_score": 0.7001
+      },
+      "judge_metrics": {
+        "question_id": "q_033",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.829,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.72).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "15"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_034",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "How are transactions booked through different foreign and domestic branches of a bank aggregated for CVA netting sets?",
+      "target_clause": "Paragraph 6",
+      "expected_answer": "Under Paragraph 6 Explanation (3), transactions booked through different branches with the same counterparty may be treated as part of a single netting set only where the netting agreement satisfies independent legal enforceability across all relevant jurisdictions.",
+      "generated_answer": "Under Paragraph 6 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (3) For the purposes of this paragraph, “Covered Transactions” shall include all eligible transactions of the bank globall y, comprising transactions undertaken through both its domestic operations and overseas branches. Transactions booked through different branches of the bank with the same counterparty may be treated as part of a single netting set for CVA purposes only where the relevant netting agreement independently satisfies the applicable requirements for recognition as a netting agreement, including legal enforceability in all relevant jurisdictions in which such transactions are booked.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 6",
+        "top_hit_score": 0.7476
+      },
+      "judge_metrics": {
+        "question_id": "q_034",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.8257,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.72).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "6"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_035",
+      "type": "multi_clause_calculation",
+      "difficulty": "Medium",
+      "question": "What occurs when a bank utilizing the alternate treatment exceeds the ₹ 10 lakh crore threshold as at the reporting date?",
+      "target_clause": "Paragraph 8",
+      "expected_answer": "Under Paragraph 8 Explanation, where a bank exceeds the ₹ 10 lakh crore threshold as at the reporting date, it is no longer eligible for the alternate treatment and must apply the BA-CVA with effect from that reporting date.",
+      "generated_answer": "Under Paragraph 101 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Directions, 2025.pdf, (2) Template OR 1 (Not mandatory for a bank in bucket 1): Historical losses Frequency of disclosure: Annual Minimum threshold for collection of loss data: ₹1,00,000 A b ank is expected to supplement the template with narrative commentary explaining the rationale in aggregate, for new loss exclusions since the previous disclosure. The b ank should disclose any other material information, in aggregate, that would help inform stakeholders as to its historical losses or its recoveries, with the exception of confidential and p roprietary information, including information about legal reserves. Table I (Amount in ₹ crore) a b c d e f g h I j k T T-1 T-2 T-3 T-4 T-5 T-6 T-7 T-8 T-9 Ten year average 1 Total amount of operational losses net of recoveries (no exclusion) 2 Total number of operational risk losses 3 Total amount of excluded operational risk losses 4 Total number of exclusions 5 Total amount of operational losses net of recoveries and net of excluded losses For columns a to j, T denotes the end of the annual reporting period, T–1 the previous year-end, etc.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 101",
+        "top_hit_score": 0.5932
+      },
+      "judge_metrics": {
+        "question_id": "q_035",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.6259,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.54).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "101",
+          "I"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_036",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "How is variation margin posted by the bank treated in a netting set subject to a one-way margin agreement under SA-CCR?",
+      "target_clause": "Paragraph 11",
+      "expected_answer": "Under Paragraph 11(1) Explanation, one-way margin agreements where the bank posts but does not receive variation margin are treated as unmargined; collateral C includes variation margin posted by the bank with a negative sign.",
+      "generated_answer": "Under Paragraph 11 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, (15) of these Directions, netting sets that include a one- way margin agreement in favour of the bank’s counterparty (i.e., the bank posts, but does not receive variation margin) are treated as unmargined for the purposes of SA -CCR. For such netting sets, C also includes, with a ne gative sign, the variation margin amount posted by the bank to the counterparty.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 11",
+        "top_hit_score": 0.8489
+      },
+      "judge_metrics": {
+        "question_id": "q_036",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.9896,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.86).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "11"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_037",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "What are the time period parameters S_i and E_i used for interest rate and credit derivatives in SA-CCR, and how are they defined?",
+      "target_clause": "Paragraph 12",
+      "expected_answer": "S_i is the time period from today until the start of the time period referenced by the contract; E_i is the time period from today until the end of the referenced time period, used for supervisory duration and maturity bucket allocation.",
+      "generated_answer": "Under Paragraph 12 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, (iii) For interest rate and credit derivatives, Ei is the period of time (starting today) until the end of the time period referenced by an interest rate or credit contract. If the derivative references the value of another interest rate or credit instrument (e. g., swaption or bond option), a bank shall determine the time period on the basis of the underlying instrument.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 12",
+        "top_hit_score": 0.6971
+      },
+      "judge_metrics": {
+        "question_id": "q_037",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.7309,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.64).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "12"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_038",
+      "type": "multi_clause_calculation",
+      "difficulty": "Medium",
+      "question": "Under what circumstances can the supervisory authority deny a bank from using the alternate CVA treatment even if it meets the notional threshold?",
+      "target_clause": "Paragraph 8",
+      "expected_answer": "Under Paragraph 8 proviso, the supervisory authority may not permit the alternate treatment if it determines that CVA risk resulting from the bank’s derivative positions materially contributes to the bank’s overall risk.",
+      "generated_answer": "Under Paragraph 9 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 9. The capital requirement for CVA risk under the alternate treatment is as follows: (1) A bank shall set its CVA capital requirement equal to 100 per cent of its capital requirement for counterparty credit risk (CCR), computed as per the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026. (2) A bank is not allowed to recognise CVA hedges.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.3333333333333333,
+        "top_hit_clause": "Paragraph 9",
+        "top_hit_score": 0.6594
+      },
+      "judge_metrics": {
+        "question_id": "q_038",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 9...' (sim=0.11)",
+        "answer_relevance_score": 0.7263,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.63).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "9"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_039",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "How are complex multi-asset or hybrid derivative transactions allocated across asset classes for PFE add-on calculations?",
+      "target_clause": "Paragraph 12",
+      "expected_answer": "Under Paragraph 12(7) and 12(8), multi-asset hybrid derivatives must be allocated to more than one asset class, resulting in the same position being included in multiple asset classes with respective sign and supervisory delta adjustment.",
+      "generated_answer": "Under Paragraph 12 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, (8) RBI may require a bank to allocate more complex transactions to more than one asset class, resulting in the same position being included in multiple asset classes. In such case, for each asset class to which the position is allocated, a bank shall determine appropriately the sign and supervisory delta adjustment of the relevant risk driver. General steps for calculating the PFE add-on for each asset class.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 12",
+        "top_hit_score": 0.706
+      },
+      "judge_metrics": {
+        "question_id": "q_039",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.8453,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.74).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "12"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_040",
+      "type": "multi_clause_calculation",
+      "difficulty": "Hard",
+      "question": "How is capital charge computed under the reduced version of the BA-CVA according to Paragraph 13?",
+      "target_clause": "Paragraph 13",
+      "expected_answer": "Under Paragraph 13, capital requirements under the reduced version of BA-CVA are calculated as K_reduced = DS * K_cva, where DS is the discount scalar = 0.65 and K_cva is the aggregate portfolio capital requirement computed under Paragraph 14.",
+      "generated_answer": "Under Paragraph 22 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (iii) of these Directions;.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.5,
+        "top_hit_clause": "Paragraph 22",
+        "top_hit_score": 0.8151
+      },
+      "judge_metrics": {
+        "question_id": "q_040",
+        "faithfulness_score": 0.0,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, (iii) of these Directions;....' (sim=0.32)",
+        "answer_relevance_score": 0.5392,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.47).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "22"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_041",
+      "type": "paraphrased_adversarial",
+      "difficulty": "Medium",
+      "question": "Can a bank incorporate its own default risk (debt valuation adjustment or DVA) to lower regulatory CVA capital?",
+      "target_clause": "Paragraph 4",
+      "expected_answer": "No. Paragraph 4(3)(a) explicitly states that regulatory CVA excludes the effect of the bank’s own default.",
+      "generated_answer": "Under Paragraph 8 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, 8. A bank shall ensure that t he exposure amount for a given OTC derivative counterparty is the greater of zero and the difference between the sum of exposure amounts across all netting sets with the counterparty and the credit valuation adjustment ( CVA) for that counterparty which has already been recognised by the bank as an incurred write-down (i.e., a CVA loss). A bank shall calculate CVA loss as a prudent valuation adjustment as per paragraph 213 of the Commercial Bank s - Prudential Norms on Capital Adequacy Directions, 2025, without taking into account any offsetting debit valuation adjustments (DVA) which have been deducted from capital (in terms of paragraph 28(5) of the Commercial Banks - Prudential Norms on Capital Adequacy Directions, 2025).",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.25,
+        "top_hit_clause": "Paragraph 8",
+        "top_hit_score": 0.6927
+      },
+      "judge_metrics": {
+        "question_id": "q_041",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 8...' (sim=0.12)",
+        "answer_relevance_score": 0.7438,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.65).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "8",
+          "213",
+          "28(5)"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_042",
+      "type": "paraphrased_adversarial",
+      "difficulty": "Medium",
+      "question": "Are repurchase agreements (repos) and securities lending transactions subject to the CVA risk capital charge?",
+      "target_clause": "Paragraph 6",
+      "expected_answer": "No. Under Paragraph 6, trades pertaining to Securities Financing Transactions (SFTs, which include repos and securities lending) are expressly excluded from the calculation of the CVA capital charge.",
+      "generated_answer": "Under Paragraph 17 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (3) above.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 17",
+        "top_hit_score": 0.6523
+      },
+      "judge_metrics": {
+        "question_id": "q_042",
+        "faithfulness_score": 0.0,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, (3) above....' (sim=0.28)",
+        "answer_relevance_score": 0.3531,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.31).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "17"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_043",
+      "type": "paraphrased_adversarial",
+      "difficulty": "Hard",
+      "question": "Can a bank adopt internal advanced modeling techniques (accounting CVA models) to compute regulatory CVA risk capital under RBI directions?",
+      "target_clause": "Paragraph 7",
+      "expected_answer": "No. Under Paragraph 7, banks must use the Basic Approach (BA-CVA) or the alternate treatment; internal accounting CVA models are constrained and cannot substitute for regulatory BA-CVA.",
+      "generated_answer": "Under Paragraph 8 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 8. A bank whose aggregate notional amount of non -centrally cleared derivatives , on a consolidated group-wide basis, is less than or equal to ₹ 10 lakh crore as at the reporting date, m ay opt not to calculate its CVA capital requirements using the BA-CVA and may instead adopt an alternative treatment. Provided that, the supervisory authority may not permit this option for a bank, if it determines that CVA risk resulting from the bank’s derivative positions materially contributes to the bank’s overall risk.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.2,
+        "top_hit_clause": "Paragraph 8",
+        "top_hit_score": 0.6549
+      },
+      "judge_metrics": {
+        "question_id": "q_043",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 8...' (sim=0.14)",
+        "answer_relevance_score": 0.7496,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.65).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "8"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_044",
+      "type": "paraphrased_adversarial",
+      "difficulty": "Hard",
+      "question": "If a derivative contract's remaining maturity has reduced to 6 months, can the bank use 0.5 years as its effective maturity?",
+      "target_clause": "Paragraph 17",
+      "expected_answer": "No. Under Paragraph 17(1) Explanation, a transaction with an original maturity exceeding one year remains subject to the one-year maturity floor, even if its residual maturity subsequently falls below one year.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 17",
+        "top_hit_score": 0.5003
+      },
+      "judge_metrics": {
+        "question_id": "q_044",
+        "faithfulness_score": 0.0,
+        "faithfulness_reason": "Claim unsupported: 'Out of scope / Unanswerable based on the provided CVA Framew...' (sim=0.40)",
+        "answer_relevance_score": 0.1353,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.12).",
+        "citation_precision": false,
+        "cited_clauses": [],
+        "refusal_correctness": false,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_045",
+      "type": "paraphrased_adversarial",
+      "difficulty": "Medium",
+      "question": "Do Small Finance Banks have to maintain capital for CVA risk under the 2026 Directions?",
+      "target_clause": "Paragraph 3",
+      "expected_answer": "No. Paragraph 3 explicitly excludes Small Finance Banks, Payments Banks, and Local Area Banks from the definition of Commercial Banks subject to these Directions.",
+      "generated_answer": "Under Paragraph 9 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 9. The capital requirement for CVA risk under the alternate treatment is as follows: (1) A bank shall set its CVA capital requirement equal to 100 per cent of its capital requirement for counterparty credit risk (CCR), computed as per the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026. (2) A bank is not allowed to recognise CVA hedges.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 9",
+        "top_hit_score": 0.7347
+      },
+      "judge_metrics": {
+        "question_id": "q_045",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 9...' (sim=0.11)",
+        "answer_relevance_score": 0.8493,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.74).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "9"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_046",
+      "type": "paraphrased_adversarial",
+      "difficulty": "Medium",
+      "question": "Does a bank have to compute CVA capital on direct derivative transactions with a Qualifying Central Counterparty?",
+      "target_clause": "Paragraph 4",
+      "expected_answer": "No. Under Paragraph 4(2) and Paragraph 6, derivatives transacted directly with a qualified central counterparty (QCCP) are excluded from the scope of Covered Transactions.",
+      "generated_answer": "Under Paragraph 8 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 8. A bank whose aggregate notional amount of non -centrally cleared derivatives , on a consolidated group-wide basis, is less than or equal to ₹ 10 lakh crore as at the reporting date, m ay opt not to calculate its CVA capital requirements using the BA-CVA and may instead adopt an alternative treatment. Provided that, the supervisory authority may not permit this option for a bank, if it determines that CVA risk resulting from the bank’s derivative positions materially contributes to the bank’s overall risk.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 8",
+        "top_hit_score": 0.7257
+      },
+      "judge_metrics": {
+        "question_id": "q_046",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 8...' (sim=0.13)",
+        "answer_relevance_score": 0.8311,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.72).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "8"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_047",
+      "type": "paraphrased_adversarial",
+      "difficulty": "Easy",
+      "question": "Can an eligible bank hedge its CVA portfolio to reduce its capital requirement if it has opted for the alternate treatment?",
+      "target_clause": "Paragraph 9",
+      "expected_answer": "No. Under Paragraph 9(2), a bank opting for the alternate treatment is strictly not allowed to recognise CVA hedges.",
+      "generated_answer": "Under Paragraph 9 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, 9. The capital requirement for CVA risk under the alternate treatment is as follows: (1) A bank shall set its CVA capital requirement equal to 100 per cent of its capital requirement for counterparty credit risk (CCR), computed as per the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026. (2) A bank is not allowed to recognise CVA hedges.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 9",
+        "top_hit_score": 0.7556
+      },
+      "judge_metrics": {
+        "question_id": "q_047",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: '2026.pdf, 9...' (sim=0.11)",
+        "answer_relevance_score": 0.8081,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.70).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "9"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_048",
+      "type": "paraphrased_adversarial",
+      "difficulty": "Hard",
+      "question": "If an unrated corporate borrower has strong internal ratings, can a bank assign it an Investment Grade risk weight in Table 1?",
+      "target_clause": "Paragraph 16",
+      "expected_answer": "No. Paragraph 16(c) stipulates that where there are no external ratings from Eligible Credit Rating Agencies, the risk weight corresponding to Non-Rated (NR) must be applied.",
+      "generated_answer": "Under Paragraph 16 of the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf, (a) Credit rating below BBB / Baa -shall be considered as HY. For the purpose of mapping external ratings assigned by Eligible Credit Rating Agencies (ECRA), a bank shall refer to Table 20 and Table 22 of the Reserve Bank of India (Commercial Banks – Capital Charge for Credit Risk – Standardised Approach) Directions, 2026, as amended from time to time, and shall use the rating mapping specified in the respective tables. The supervisory risk weight shall, however, be determined in accordance with Table 1 of these Directions.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 16",
+        "top_hit_score": 0.6316
+      },
+      "judge_metrics": {
+        "question_id": "q_048",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.6826,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.59).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "16",
+          "20",
+          "22",
+          "1"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_049",
+      "type": "paraphrased_adversarial",
+      "difficulty": "Hard",
+      "question": "Does excess collateral held by a bank permit Replacement Cost (RC) to drop below zero under SA-CCR?",
+      "target_clause": "Paragraph 11",
+      "expected_answer": "No. Under Paragraph 11(4), over-collateralisation or negative mark-to-market values are not permitted to reduce RC below zero; RC is floored at zero, though excess collateral can reduce PFE.",
+      "generated_answer": "Under Paragraph 11 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, (4) The formulation set out in paragraph 11(1), does not permit the RC, which represents today’s exposure to the counterparty, to be less than zero. However, a bank may sometime hold excess collateral (even in the absence of a margin agreement) or have out-of-the-money trades which can further protect the bank from the increase of the exposure. As discussed in paragraphs 12.",
+      "retrieval_metrics": {
+        "hit_at_1": 1.0,
+        "hit_at_3": 1.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 1.0,
+        "top_hit_clause": "Paragraph 11",
+        "top_hit_score": 0.6514
+      },
+      "judge_metrics": {
+        "question_id": "q_049",
+        "faithfulness_score": 0.6667,
+        "faithfulness_reason": "Claim unsupported: 'As discussed in paragraphs 12....' (sim=0.17)",
+        "answer_relevance_score": 0.7646,
+        "answer_relevance_reason": "Response directly addresses query with high semantic alignment (sim=0.66).",
+        "citation_precision": true,
+        "cited_clauses": [
+          "11",
+          "11(1)"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": false
+      }
+    },
+    {
+      "id": "q_050",
+      "type": "paraphrased_adversarial",
+      "difficulty": "Medium",
+      "question": "Can a bank continue to use the Current Exposure Method (CEM) for measuring counterparty credit risk exposures?",
+      "target_clause": "Paragraph 10",
+      "expected_answer": "No. Paragraph 10(2) specifies that for all regulatory purposes, exposure computation for applicable banks shall be based on the SA-CCR methodology instead of CEM and consistently applied.",
+      "generated_answer": "Under Paragraph 3 of the Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf, (1) For exposure arising from OTC derivatives, exchange- traded derivatives, and long settlement transactions , standardised approach for measuring counterparty credit risk exposures (SA-CCR) as set out in paragraphs 10 to 14 of these Directions. This treatment is applicable to transactions booked in both banking and trading book.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 1.0,
+        "reciprocal_rank": 0.2,
+        "top_hit_clause": "Paragraph 3",
+        "top_hit_score": 0.6715
+      },
+      "judge_metrics": {
+        "question_id": "q_050",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "All factual claims verified against context.",
+        "answer_relevance_score": 0.7361,
+        "answer_relevance_reason": "Response has moderate topic alignment (sim=0.64).",
+        "citation_precision": false,
+        "cited_clauses": [
+          "3"
+        ],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_051",
+      "type": "unanswerable_refusal",
+      "difficulty": "Easy",
+      "question": "What are the capital adequacy requirements for commercial bank exposures to crypto-assets under RBI regulations?",
+      "target_clause": "None",
+      "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 18",
+        "top_hit_score": 0.6529
+      },
+      "judge_metrics": {
+        "question_id": "q_051",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "Appropriately abstained from out-of-scope query.",
+        "answer_relevance_score": 1.0,
+        "answer_relevance_reason": "Refusal matches expected abstention behavior.",
+        "citation_precision": true,
+        "cited_clauses": [],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_052",
+      "type": "unanswerable_refusal",
+      "difficulty": "Easy",
+      "question": "What is the minimum Liquidity Coverage Ratio (LCR) requirement prescribed for non-banking financial companies (NBFCs)?",
+      "target_clause": "None",
+      "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 29",
+        "top_hit_score": 0.5305
+      },
+      "judge_metrics": {
+        "question_id": "q_052",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "Appropriately abstained from out-of-scope query.",
+        "answer_relevance_score": 1.0,
+        "answer_relevance_reason": "Refusal matches expected abstention behavior.",
+        "citation_precision": true,
+        "cited_clauses": [],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_053",
+      "type": "unanswerable_refusal",
+      "difficulty": "Easy",
+      "question": "What are the priority sector lending (PSL) sub-targets for small and marginal farmers under RBI master directions?",
+      "target_clause": "None",
+      "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 1",
+        "top_hit_score": 0.4771
+      },
+      "judge_metrics": {
+        "question_id": "q_053",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "Appropriately abstained from out-of-scope query.",
+        "answer_relevance_score": 1.0,
+        "answer_relevance_reason": "Refusal matches expected abstention behavior.",
+        "citation_precision": true,
+        "cited_clauses": [],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_054",
+      "type": "unanswerable_refusal",
+      "difficulty": "Easy",
+      "question": "How should commercial banks calculate credit risk capital requirements using the Internal Ratings-Based (IRB) approach?",
+      "target_clause": "None",
+      "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 78",
+        "top_hit_score": 0.7266
+      },
+      "judge_metrics": {
+        "question_id": "q_054",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "Appropriately abstained from out-of-scope query.",
+        "answer_relevance_score": 1.0,
+        "answer_relevance_reason": "Refusal matches expected abstention behavior.",
+        "citation_precision": true,
+        "cited_clauses": [],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_055",
+      "type": "unanswerable_refusal",
+      "difficulty": "Easy",
+      "question": "What is the penal interest rate applied by RBI when Scheduled Commercial Banks fail to maintain the required Cash Reserve Ratio (CRR)?",
+      "target_clause": "None",
+      "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 95",
+        "top_hit_score": 0.5796
+      },
+      "judge_metrics": {
+        "question_id": "q_055",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "Appropriately abstained from out-of-scope query.",
+        "answer_relevance_score": 1.0,
+        "answer_relevance_reason": "Refusal matches expected abstention behavior.",
+        "citation_precision": true,
+        "cited_clauses": [],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_056",
+      "type": "unanswerable_refusal",
+      "difficulty": "Easy",
+      "question": "What are the mandatory customer due diligence (CDD) documents required to open a Basic Savings Bank Deposit Account (BSBDA)?",
+      "target_clause": "None",
+      "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 4",
+        "top_hit_score": 0.5014
+      },
+      "judge_metrics": {
+        "question_id": "q_056",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "Appropriately abstained from out-of-scope query.",
+        "answer_relevance_score": 1.0,
+        "answer_relevance_reason": "Refusal matches expected abstention behavior.",
+        "citation_precision": true,
+        "cited_clauses": [],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_057",
+      "type": "unanswerable_refusal",
+      "difficulty": "Easy",
+      "question": "What is the regulatory ceiling on individual housing loans granted by Tier-1 Primary Urban Cooperative Banks?",
+      "target_clause": "None",
+      "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 4",
+        "top_hit_score": 0.5107
+      },
+      "judge_metrics": {
+        "question_id": "q_057",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "Appropriately abstained from out-of-scope query.",
+        "answer_relevance_score": 1.0,
+        "answer_relevance_reason": "Refusal matches expected abstention behavior.",
+        "citation_precision": true,
+        "cited_clauses": [],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_058",
+      "type": "unanswerable_refusal",
+      "difficulty": "Easy",
+      "question": "What are the internal model validation and backtesting criteria for market risk under the Fundamental Review of the Trading Book (FRTB)?",
+      "target_clause": "None",
+      "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 73",
+        "top_hit_score": 0.5724
+      },
+      "judge_metrics": {
+        "question_id": "q_058",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "Appropriately abstained from out-of-scope query.",
+        "answer_relevance_score": 1.0,
+        "answer_relevance_reason": "Refusal matches expected abstention behavior.",
+        "citation_precision": true,
+        "cited_clauses": [],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_059",
+      "type": "unanswerable_refusal",
+      "difficulty": "Easy",
+      "question": "What are the single-counterparty exposure limits prescribed under the RBI Large Exposures Framework (LEF) for non-banking groups?",
+      "target_clause": "None",
+      "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 10",
+        "top_hit_score": 0.6422
+      },
+      "judge_metrics": {
+        "question_id": "q_059",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "Appropriately abstained from out-of-scope query.",
+        "answer_relevance_score": 1.0,
+        "answer_relevance_reason": "Refusal matches expected abstention behavior.",
+        "citation_precision": true,
+        "cited_clauses": [],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    },
+    {
+      "id": "q_060",
+      "type": "unanswerable_refusal",
+      "difficulty": "Easy",
+      "question": "What are the minimum paid-up capital and promoter shareholding guidelines for licensing new digital banks in India?",
+      "target_clause": "None",
+      "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "generated_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+      "retrieval_metrics": {
+        "hit_at_1": 0.0,
+        "hit_at_3": 0.0,
+        "hit_at_5": 0.0,
+        "reciprocal_rank": 0.0,
+        "top_hit_clause": "Paragraph 4",
+        "top_hit_score": 0.5843
+      },
+      "judge_metrics": {
+        "question_id": "q_060",
+        "faithfulness_score": 1.0,
+        "faithfulness_reason": "Appropriately abstained from out-of-scope query.",
+        "answer_relevance_score": 1.0,
+        "answer_relevance_reason": "Refusal matches expected abstention behavior.",
+        "citation_precision": true,
+        "cited_clauses": [],
+        "refusal_correctness": true,
+        "overall_pass": true
+      }
+    }
+  ]
+}
