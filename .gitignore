@@ -26,3 +26,10 @@ reports/*.json
 
 # Legacy/raw input directory
 RBI Corpus/
+
+# Secret / Token files
+PAT.txt
+*.pat
+*.token
+*.env
+.env*

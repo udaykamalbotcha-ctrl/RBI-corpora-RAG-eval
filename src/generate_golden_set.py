@@ -1,0 +1,643 @@
+"""Golden Dataset Generator and Validator for RBI Regulatory Corpora RAG Evaluation.
+
+Generates the 60-question golden test dataset across 5 evaluation dimensions:
+1. Single-Clause Factual (25 questions)
+2. Multi-Clause / Multi-Step Calculation (15 questions)
+3. Paraphrased & Adversarial Wording (10 questions)
+4. Unanswerable / Refusal Testing (10 questions)
+
+Strictly validated against pydantic schema and saved to golden_set/questions.jsonl.
+"""
+
+import json
+import os
+import sys
+from pathlib import Path
+from typing import List, Literal, Optional
+from pydantic import BaseModel, Field, ValidationError
+
+# Add project root to sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+CVA_DOC = "Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026.pdf"
+AMEND_DOC = "Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Amendment Directions, 2026.pdf"
+INSTRUCT_DOC = "Reserve Bank of India (Commercial Banks – Forthcoming Instructions) Directions, 2025.pdf"
+
+
+class GoldenQuestion(BaseModel):
+    id: str = Field(..., description="Unique question identifier, e.g. q_001")
+    question: str = Field(..., description="The user query to be tested")
+    expected_answer: str = Field(..., description="Ground-truth regulatory answer")
+    source_document: str = Field(..., description="Source PDF filename or 'None'")
+    clause_number: str = Field(..., description="Target clause/paragraph or 'None'")
+    difficulty: Literal["Easy", "Medium", "Hard"] = Field(..., description="Difficulty level")
+    type: Literal[
+        "factual_single_clause",
+        "multi_clause_calculation",
+        "paraphrased_adversarial",
+        "unanswerable_refusal",
+    ] = Field(..., description="Evaluation category")
+
+
+GOLDEN_QUESTIONS_DATA = [
+    # =========================================================================
+    # 1. Single-Clause Factual (25 questions: q_001 to q_025)
+    # =========================================================================
+    {
+        "id": "q_001",
+        "question": "What is the discount scalar value prescribed for the reduced version of the BA-CVA?",
+        "expected_answer": "The discount scalar (DS) for the reduced version of the BA-CVA is 0.65.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 13",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_002",
+        "question": "What is the supervisory risk weight assigned to Financials (including government-backed financials) under Table 1 of the CVA Directions for Investment Grade (IG)?",
+        "expected_answer": "Under Table 1 of the CVA Directions, Financials (including government-backed financials) of Investment Grade (IG) credit quality are assigned a supervisory risk weight of 5.0%.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 16",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_003",
+        "question": "What is the supervisory risk weight for Sovereigns, central banks, and multilateral development banks classified as Investment Grade under Table 1 of CVA Directions?",
+        "expected_answer": "Sovereigns including central banks and multilateral development banks with Investment Grade (IG) credit quality receive a supervisory risk weight of 0.5%.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 16",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_004",
+        "question": "What is the supervisory risk weight for Technology and telecommunications counterparties under Table 1 of CVA Directions for High Yield (HY) and Non-Rated (NR)?",
+        "expected_answer": "For Technology and telecommunications counterparties classified as High Yield (HY) or Non-Rated (NR), the supervisory risk weight is 5.5%.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 16",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_005",
+        "question": "What is the supervisory risk weight for Health care, utilities, professional and technical activities for Investment Grade counterparties under Table 1?",
+        "expected_answer": "For Health care, utilities, professional and technical activities classified as Investment Grade (IG), the supervisory risk weight is 1.5%.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 16",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_006",
+        "question": "When do the Reserve Bank of India (Commercial Banks – Credit Valuation Adjustment Framework) Directions, 2026 come into effect?",
+        "expected_answer": "These Directions shall come into effect from April 1, 2027.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 2",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_007",
+        "question": "What is the aggregate notional threshold of non-centrally cleared derivatives below which a bank may adopt the alternate treatment for CVA capital requirements?",
+        "expected_answer": "A bank whose aggregate notional amount of non-centrally cleared derivatives, on a consolidated group-wide basis, is less than or equal to ₹ 10 lakh crore as at the reporting date may opt to adopt the alternate treatment.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 8",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_008",
+        "question": "Under the alternate treatment, how is the capital requirement for CVA risk determined relative to counterparty credit risk (CCR)?",
+        "expected_answer": "Under the alternate treatment, a bank sets its CVA capital requirement equal to 100 per cent of its capital requirement for counterparty credit risk (CCR) computed under the SA-CCR framework.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 9",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_009",
+        "question": "What is the supervisory value of the alpha multiplier used in the SA-CCR exposure calculation?",
+        "expected_answer": "The supervisory value of alpha is set at 1.4.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 10",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_010",
+        "question": "What is the floor applied to the effective maturity (M_NS) for a netting set under the CVA Framework Directions?",
+        "expected_answer": "The effective maturity (M_NS) is subject to a regulatory floor of one year (1 year).",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 17",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_011",
+        "question": "What interest rate is prescribed for discounting in the supervisory discount factor formula under BA-CVA?",
+        "expected_answer": "The interest rate used for discounting is set at 5 per cent (0.05), appearing in the formula DF_NS = (1 - e^(-0.05*M_NS)) / (0.05*M_NS).",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 15",
+        "difficulty": "Medium",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_012",
+        "question": "Are trades pertaining to Securities Financing Transactions (SFTs) included in the calculation of the CVA capital charge?",
+        "expected_answer": "No. Trades pertaining to Securities Financing Transactions (SFTs) shall be excluded from the calculation of the CVA capital charge.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 6",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_013",
+        "question": "What minimum Margin Period of Risk (MPOR) can a clearing member bank use when calculating exposure to clients for cleared transactions?",
+        "expected_answer": "A clearing member may calculate its exposure to clients using an MPOR of at least five business days for the purpose of computing exposure at default under SA-CCR.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 6",
+        "difficulty": "Medium",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_014",
+        "question": "What is the formula for Replacement Cost (RC) for unmargined netting sets under SA-CCR?",
+        "expected_answer": "For unmargined transactions, RC = max{V - C; 0}, where V is the current market value of derivative transactions in the netting set and C is the haircut value of net collateral held.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 11",
+        "difficulty": "Medium",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_015",
+        "question": "What external credit rating threshold delineates High Yield (HY) from Investment Grade (IG) for CVA risk weights?",
+        "expected_answer": "External credit ratings below BBB- / Baa3 are considered High Yield (HY).",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 16",
+        "difficulty": "Medium",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_016",
+        "question": "How must a bank treat plus (+) or minus (-) notations attached to external credit ratings when determining CVA supervisory risk weights?",
+        "expected_answer": "Where a '+' or '−' notation is attached to a rating, the corresponding risk weight for the main rating category shall apply.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 16",
+        "difficulty": "Medium",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_017",
+        "question": "Are CVA hedges permitted to be recognized under the alternate treatment in Paragraph 9 of the CVA Directions?",
+        "expected_answer": "No, a bank is not allowed to recognise CVA hedges under the alternate treatment.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 9",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_018",
+        "question": "Which categories of commercial banking companies are explicitly excluded from the applicability of the RBI CVA Framework Directions, 2026?",
+        "expected_answer": "Small Finance Banks, Payments Banks, and Local Area Banks are explicitly excluded from the applicability of the CVA Framework Directions.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 3",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_019",
+        "question": "What is the supervisory risk weight for the 'Other sectors' category for High Yield (HY) and Non-Rated (NR) counterparties under Table 1?",
+        "expected_answer": "Under Table 1, the supervisory risk weight for the 'Other sectors' category for High Yield (HY) and Non-Rated (NR) counterparties is 12.0%.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 16",
+        "difficulty": "Medium",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_020",
+        "question": "What are the five asset classes to which derivative transactions must be attributed under the SA-CCR methodology?",
+        "expected_answer": "The five asset classes under SA-CCR are interest rate, foreign exchange, credit, equity, and commodity.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 12",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_021",
+        "question": "How is 'Credit Valuation Adjustment' (CVA) defined in Paragraph 4(3) of the CVA Framework Directions?",
+        "expected_answer": "CVA is defined as a counterparty-level adjustment reflecting the adjustment to the default risk-free price of a derivative or SFT due to a potential default of the counterparty, accounting for credit risk of contracting parties.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 4",
+        "difficulty": "Medium",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_022",
+        "question": "How is 'CVA risk' defined in the RBI Directions, 2026?",
+        "expected_answer": "'CVA risk' is the risk of losses arising from change in CVA values in response to changes in counterparty credit spreads and market risk factors that drive prices of derivative transactions and SFTs.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 4",
+        "difficulty": "Medium",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_023",
+        "question": "What statutory definition of 'Derivative' is adopted under Paragraph 4(5) of the CVA Framework Directions?",
+        "expected_answer": "'Derivative' shall have the same meaning as assigned to it in Section 45U(a) of the Reserve Bank of India Act, 1934.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 4",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_024",
+        "question": "On what basis must a bank calculate capital requirements for CVA risk across its banking book and trading book?",
+        "expected_answer": "A bank shall calculate capital requirements for CVA risk on a standalone basis for all covered transactions in both banking book and trading book.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 6",
+        "difficulty": "Easy",
+        "type": "factual_single_clause",
+    },
+    {
+        "id": "q_025",
+        "question": "What is the regulatory treatment of a derivative transaction that is subsequently novated to a Qualifying Central Counterparty (QCCP)?",
+        "expected_answer": "The resulting exposure upon novation is treated in the same manner as an exposure arising from a transaction undertaken directly with the QCCP and is excluded from the scope of Covered Transactions.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 6",
+        "difficulty": "Medium",
+        "type": "factual_single_clause",
+    },
+
+    # =========================================================================
+    # 2. Multi-Clause / Multi-Step Calculation (15 questions: q_026 to q_040)
+    # =========================================================================
+    {
+        "id": "q_026",
+        "question": "How is Replacement Cost (RC) calculated for a margined netting set under SA-CCR, and what parameters make up the formula?",
+        "expected_answer": "For margined transactions, RC = max{V - C; TH + MTA - NICA; 0}, where V is current market value, C is haircut net collateral held, TH is margin threshold, MTA is minimum transfer amount, and NICA is net independent collateral amount.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 11",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_027",
+        "question": "How is exposure at default (EAD) calculated from Replacement Cost (RC) and Potential Future Exposure (PFE) under SA-CCR overview rules?",
+        "expected_answer": "Exposure at default is calculated as EAD = alpha * (RC + PFE), where alpha = 1.4, RC is calculated under Paragraph 11, and PFE is calculated under Paragraph 12.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 10",
+        "difficulty": "Medium",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_028",
+        "question": "Why does SA-CCR cap the exposure of a margined netting set at the exposure of the same netting set calculated on an unmargined basis?",
+        "expected_answer": "Under Paragraph 10(2), the cap addresses the issue resulting from a high threshold (TH) under a margin agreement which could otherwise lead to higher values of RC for margined transactions vis-a-vis unmargined transactions.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 10",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_029",
+        "question": "How is effective notional (D) calculated for an individual derivative trade in SA-CCR, and what are its constituent parameters?",
+        "expected_answer": "Effective notional is calculated as D = d * MF * delta, where d is the adjusted notional reflecting trade size, MF is the maturity factor reflecting the time horizon, and delta is the supervisory delta accounting for trade direction and non-linearity.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 12",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_030",
+        "question": "How does a bank calculate effective maturity (M) for an instrument with a contractual cash flow schedule, and what is the conservative fallback if cash flows cannot be determined?",
+        "expected_answer": "Effective maturity M is calculated as the cash-flow weighted time sum sum(t*CF_t)/sum(CF_t). If contracted payments cannot be calculated, the bank must use nominal maturity (the maximum remaining time in years to fully discharge contractual obligations).",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 17",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_031",
+        "question": "Under Paragraph 16 of CVA Directions, what rating selection hierarchy must a bank apply when a counterparty has multiple external credit ratings?",
+        "expected_answer": "If a counterparty has two ratings, the worst rating applies. If there are three or more ratings with different risk weights, the ratings corresponding to the two lowest risk weights are selected, and the higher of those two risk weights is applied.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 16",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_032",
+        "question": "How does a bank determine the supervisory risk weight for a corporate counterparty that cannot be mapped to any sector listed in Table 1?",
+        "expected_answer": "Under Paragraph 16(d), where a counterparty cannot be assigned to any of the sectors in Table 1, it must be assigned to 'Other sectors'. In Table 1, Other Sectors has a risk weight of 5.0% for IG and 12.0% for HY and NR.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 16",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_033",
+        "question": "How is the supervisory discount factor (DF_NS) calculated for a netting set, and how is the 5 percent interest rate parameter justified?",
+        "expected_answer": "DF_NS = (1 - e^(-0.05*M_NS))/(0.05*M_NS). The 5% (0.05) rate accounts for average discounting between today and effective maturity date, compensating for lack of discounting in unweighted maturity profiles.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 15",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_034",
+        "question": "How are transactions booked through different foreign and domestic branches of a bank aggregated for CVA netting sets?",
+        "expected_answer": "Under Paragraph 6 Explanation (3), transactions booked through different branches with the same counterparty may be treated as part of a single netting set only where the netting agreement satisfies independent legal enforceability across all relevant jurisdictions.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 6",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_035",
+        "question": "What occurs when a bank utilizing the alternate treatment exceeds the ₹ 10 lakh crore threshold as at the reporting date?",
+        "expected_answer": "Under Paragraph 8 Explanation, where a bank exceeds the ₹ 10 lakh crore threshold as at the reporting date, it is no longer eligible for the alternate treatment and must apply the BA-CVA with effect from that reporting date.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 8",
+        "difficulty": "Medium",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_036",
+        "question": "How is variation margin posted by the bank treated in a netting set subject to a one-way margin agreement under SA-CCR?",
+        "expected_answer": "Under Paragraph 11(1) Explanation, one-way margin agreements where the bank posts but does not receive variation margin are treated as unmargined; collateral C includes variation margin posted by the bank with a negative sign.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 11",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_037",
+        "question": "What are the time period parameters S_i and E_i used for interest rate and credit derivatives in SA-CCR, and how are they defined?",
+        "expected_answer": "S_i is the time period from today until the start of the time period referenced by the contract; E_i is the time period from today until the end of the referenced time period, used for supervisory duration and maturity bucket allocation.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 12",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_038",
+        "question": "Under what circumstances can the supervisory authority deny a bank from using the alternate CVA treatment even if it meets the notional threshold?",
+        "expected_answer": "Under Paragraph 8 proviso, the supervisory authority may not permit the alternate treatment if it determines that CVA risk resulting from the bank’s derivative positions materially contributes to the bank’s overall risk.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 8",
+        "difficulty": "Medium",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_039",
+        "question": "How are complex multi-asset or hybrid derivative transactions allocated across asset classes for PFE add-on calculations?",
+        "expected_answer": "Under Paragraph 12(7) and 12(8), multi-asset hybrid derivatives must be allocated to more than one asset class, resulting in the same position being included in multiple asset classes with respective sign and supervisory delta adjustment.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 12",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+    {
+        "id": "q_040",
+        "question": "How is capital charge computed under the reduced version of the BA-CVA according to Paragraph 13?",
+        "expected_answer": "Under Paragraph 13, capital requirements under the reduced version of BA-CVA are calculated as K_reduced = DS * K_cva, where DS is the discount scalar = 0.65 and K_cva is the aggregate portfolio capital requirement computed under Paragraph 14.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 13",
+        "difficulty": "Hard",
+        "type": "multi_clause_calculation",
+    },
+
+    # =========================================================================
+    # 3. Paraphrased & Adversarial Wording (10 questions: q_041 to q_050)
+    # =========================================================================
+    {
+        "id": "q_041",
+        "question": "Can a bank incorporate its own default risk (debt valuation adjustment or DVA) to lower regulatory CVA capital?",
+        "expected_answer": "No. Paragraph 4(3)(a) explicitly states that regulatory CVA excludes the effect of the bank’s own default.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 4",
+        "difficulty": "Medium",
+        "type": "paraphrased_adversarial",
+    },
+    {
+        "id": "q_042",
+        "question": "Are repurchase agreements (repos) and securities lending transactions subject to the CVA risk capital charge?",
+        "expected_answer": "No. Under Paragraph 6, trades pertaining to Securities Financing Transactions (SFTs, which include repos and securities lending) are expressly excluded from the calculation of the CVA capital charge.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 6",
+        "difficulty": "Medium",
+        "type": "paraphrased_adversarial",
+    },
+    {
+        "id": "q_043",
+        "question": "Can a bank adopt internal advanced modeling techniques (accounting CVA models) to compute regulatory CVA risk capital under RBI directions?",
+        "expected_answer": "No. Under Paragraph 7, banks must use the Basic Approach (BA-CVA) or the alternate treatment; internal accounting CVA models are constrained and cannot substitute for regulatory BA-CVA.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 7",
+        "difficulty": "Hard",
+        "type": "paraphrased_adversarial",
+    },
+    {
+        "id": "q_044",
+        "question": "If a derivative contract's remaining maturity has reduced to 6 months, can the bank use 0.5 years as its effective maturity?",
+        "expected_answer": "No. Under Paragraph 17(1) Explanation, a transaction with an original maturity exceeding one year remains subject to the one-year maturity floor, even if its residual maturity subsequently falls below one year.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 17",
+        "difficulty": "Hard",
+        "type": "paraphrased_adversarial",
+    },
+    {
+        "id": "q_045",
+        "question": "Do Small Finance Banks have to maintain capital for CVA risk under the 2026 Directions?",
+        "expected_answer": "No. Paragraph 3 explicitly excludes Small Finance Banks, Payments Banks, and Local Area Banks from the definition of Commercial Banks subject to these Directions.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 3",
+        "difficulty": "Medium",
+        "type": "paraphrased_adversarial",
+    },
+    {
+        "id": "q_046",
+        "question": "Does a bank have to compute CVA capital on direct derivative transactions with a Qualifying Central Counterparty?",
+        "expected_answer": "No. Under Paragraph 4(2) and Paragraph 6, derivatives transacted directly with a qualified central counterparty (QCCP) are excluded from the scope of Covered Transactions.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 4",
+        "difficulty": "Medium",
+        "type": "paraphrased_adversarial",
+    },
+    {
+        "id": "q_047",
+        "question": "Can an eligible bank hedge its CVA portfolio to reduce its capital requirement if it has opted for the alternate treatment?",
+        "expected_answer": "No. Under Paragraph 9(2), a bank opting for the alternate treatment is strictly not allowed to recognise CVA hedges.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 9",
+        "difficulty": "Easy",
+        "type": "paraphrased_adversarial",
+    },
+    {
+        "id": "q_048",
+        "question": "If an unrated corporate borrower has strong internal ratings, can a bank assign it an Investment Grade risk weight in Table 1?",
+        "expected_answer": "No. Paragraph 16(c) stipulates that where there are no external ratings from Eligible Credit Rating Agencies, the risk weight corresponding to Non-Rated (NR) must be applied.",
+        "source_document": CVA_DOC,
+        "clause_number": "Paragraph 16",
+        "difficulty": "Hard",
+        "type": "paraphrased_adversarial",
+    },
+    {
+        "id": "q_049",
+        "question": "Does excess collateral held by a bank permit Replacement Cost (RC) to drop below zero under SA-CCR?",
+        "expected_answer": "No. Under Paragraph 11(4), over-collateralisation or negative mark-to-market values are not permitted to reduce RC below zero; RC is floored at zero, though excess collateral can reduce PFE.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 11",
+        "difficulty": "Hard",
+        "type": "paraphrased_adversarial",
+    },
+    {
+        "id": "q_050",
+        "question": "Can a bank continue to use the Current Exposure Method (CEM) for measuring counterparty credit risk exposures?",
+        "expected_answer": "No. Paragraph 10(2) specifies that for all regulatory purposes, exposure computation for applicable banks shall be based on the SA-CCR methodology instead of CEM and consistently applied.",
+        "source_document": AMEND_DOC,
+        "clause_number": "Paragraph 10",
+        "difficulty": "Medium",
+        "type": "paraphrased_adversarial",
+    },
+
+    # =========================================================================
+    # 4. Unanswerable / Refusal Testing (10 questions: q_051 to q_060)
+    # =========================================================================
+    {
+        "id": "q_051",
+        "question": "What are the capital adequacy requirements for commercial bank exposures to crypto-assets under RBI regulations?",
+        "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+        "source_document": "None",
+        "clause_number": "None",
+        "difficulty": "Easy",
+        "type": "unanswerable_refusal",
+    },
+    {
+        "id": "q_052",
+        "question": "What is the minimum Liquidity Coverage Ratio (LCR) requirement prescribed for non-banking financial companies (NBFCs)?",
+        "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+        "source_document": "None",
+        "clause_number": "None",
+        "difficulty": "Easy",
+        "type": "unanswerable_refusal",
+    },
+    {
+        "id": "q_053",
+        "question": "What are the priority sector lending (PSL) sub-targets for small and marginal farmers under RBI master directions?",
+        "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+        "source_document": "None",
+        "clause_number": "None",
+        "difficulty": "Easy",
+        "type": "unanswerable_refusal",
+    },
+    {
+        "id": "q_054",
+        "question": "How should commercial banks calculate credit risk capital requirements using the Internal Ratings-Based (IRB) approach?",
+        "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+        "source_document": "None",
+        "clause_number": "None",
+        "difficulty": "Easy",
+        "type": "unanswerable_refusal",
+    },
+    {
+        "id": "q_055",
+        "question": "What is the penal interest rate applied by RBI when Scheduled Commercial Banks fail to maintain the required Cash Reserve Ratio (CRR)?",
+        "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+        "source_document": "None",
+        "clause_number": "None",
+        "difficulty": "Easy",
+        "type": "unanswerable_refusal",
+    },
+    {
+        "id": "q_056",
+        "question": "What are the mandatory customer due diligence (CDD) documents required to open a Basic Savings Bank Deposit Account (BSBDA)?",
+        "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+        "source_document": "None",
+        "clause_number": "None",
+        "difficulty": "Easy",
+        "type": "unanswerable_refusal",
+    },
+    {
+        "id": "q_057",
+        "question": "What is the regulatory ceiling on individual housing loans granted by Tier-1 Primary Urban Cooperative Banks?",
+        "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+        "source_document": "None",
+        "clause_number": "None",
+        "difficulty": "Easy",
+        "type": "unanswerable_refusal",
+    },
+    {
+        "id": "q_058",
+        "question": "What are the internal model validation and backtesting criteria for market risk under the Fundamental Review of the Trading Book (FRTB)?",
+        "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+        "source_document": "None",
+        "clause_number": "None",
+        "difficulty": "Easy",
+        "type": "unanswerable_refusal",
+    },
+    {
+        "id": "q_059",
+        "question": "What are the single-counterparty exposure limits prescribed under the RBI Large Exposures Framework (LEF) for non-banking groups?",
+        "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+        "source_document": "None",
+        "clause_number": "None",
+        "difficulty": "Easy",
+        "type": "unanswerable_refusal",
+    },
+    {
+        "id": "q_060",
+        "question": "What are the minimum paid-up capital and promoter shareholding guidelines for licensing new digital banks in India?",
+        "expected_answer": "Out of scope / Unanswerable based on the provided CVA Framework and SA-CCR regulatory corpus.",
+        "source_document": "None",
+        "clause_number": "None",
+        "difficulty": "Easy",
+        "type": "unanswerable_refusal",
+    },
+]
+
+
+def generate_and_save_golden_set(output_path: str = "golden_set/questions.jsonl") -> List[GoldenQuestion]:
+    """Validate all golden questions against Pydantic schema and write to JSONL."""
+    out_file = Path(output_path)
+    out_file.parent.mkdir(parents=True, exist_ok=True)
+
+    validated_questions: List[GoldenQuestion] = []
+    print(f"[GoldenSet] Validating {len(GOLDEN_QUESTIONS_DATA)} questions against Pydantic schema...")
+
+    for idx, item in enumerate(GOLDEN_QUESTIONS_DATA):
+        try:
+            q_obj = GoldenQuestion(**item)
+            validated_questions.append(q_obj)
+        except ValidationError as err:
+            print(f"[ERROR] Validation failed for question {idx + 1} ({item.get('id')}): {err}")
+            raise err
+
+    # Write as UTF-8 JSON Lines
+    with open(out_file, "w", encoding="utf-8") as f:
+        for q in validated_questions:
+            line = json.dumps(q.model_dump(), ensure_ascii=False)
+            f.write(line + "\n")
+
+    print(f"[GoldenSet] Successfully generated and verified {len(validated_questions)} questions at '{output_path}'.")
+
+    # Print Category Breakdown Summary
+    categories = {}
+    for q in validated_questions:
+        categories[q.type] = categories.get(q.type, 0) + 1
+
+    print("\n" + "=" * 60)
+    print("GOLDEN DATASET CATEGORY BREAKDOWN")
+    print("=" * 60)
+    for cat, count in categories.items():
+        print(f"  * {cat:30s} : {count:2d} questions")
+    print("-" * 60)
+    print(f"  * {'TOTAL':30s} : {len(validated_questions):2d} questions\n")
+
+    return validated_questions
+
+
+if __name__ == "__main__":
+    out = sys.argv[1] if len(sys.argv) > 1 else "golden_set/questions.jsonl"
+    generate_and_save_golden_set(out)

@@ -2,6 +2,7 @@
 
 import os
 import sys
+import json
 from pathlib import Path
 import pytest
 
@@ -84,3 +85,34 @@ def test_ingest_data_folder():
         assert c.chapter != ""
         assert c.clause_number.startswith("Paragraph ")
         assert len(c.text) > 0
+
+
+def test_golden_dataset():
+    golden_path = Path("golden_set/questions.jsonl")
+    assert golden_path.exists(), "golden_set/questions.jsonl does not exist"
+
+    with open(golden_path, "r", encoding="utf-8") as f:
+        records = [json.loads(line) for line in f]
+
+    assert len(records) == 60, f"Expected 60 questions, got {len(records)}"
+
+    types = set(r["type"] for r in records)
+    expected_types = {
+        "factual_single_clause",
+        "multi_clause_calculation",
+        "paraphrased_adversarial",
+        "unanswerable_refusal",
+    }
+    assert types == expected_types
+
+    for r in records:
+        assert "id" in r and r["id"].startswith("q_")
+        assert len(r["question"]) > 10
+        assert len(r["expected_answer"]) > 5
+        assert r["difficulty"] in ["Easy", "Medium", "Hard"]
+        if r["type"] == "unanswerable_refusal":
+            assert r["source_document"] == "None"
+            assert r["clause_number"] == "None"
+        else:
+            assert r["source_document"].endswith(".pdf")
+            assert r["clause_number"].startswith("Paragraph ")
