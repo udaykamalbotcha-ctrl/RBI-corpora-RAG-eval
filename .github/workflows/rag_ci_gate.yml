@@ -11,21 +11,54 @@ jobs:
     name: Evaluate RAG Quality Gates
     runs-on: ubuntu-latest
 
+    env:
+      # Make sure the LLM API key your experiment runner needs is available.
+      # Add the same name(s) you use locally to the repo’s Settings → Secrets → Actions.
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      # (or OPENAI_API_KEY, ANTHROPIC_API_KEY, etc.)
+
     steps:
+      # --------------------------------------------------
+      # 1️⃣ Checkout the repo
+      # --------------------------------------------------
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      # --------------------------------------------------
+      # 2️⃣ Set up Python
+      # --------------------------------------------------
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
+      # --------------------------------------------------
+      # 3️⃣ Install dependencies
+      # --------------------------------------------------
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # --------------------------------------------------
+      # 4️⃣ **Run the full experiment** (creates the JSON report)
+      # --------------------------------------------------
+      - name: Run experiment (produce report)
+        run: |
+          # The script should write its results to `reports/exp_02_recursive.json`
+          # Adjust the command if you use a different entry‑point or arguments.
+          python eval/experiment_runner.py \
+            --config config/production.yaml \
+            --output reports/exp_02_recursive.json \
+            --subset tests/smoke  # optional: a tiny subset for a fast smoke run
+        # If the runner needs any extra env vars (e.g., other API keys), add them here:
+        # env:
+        #   ANOTHER_SECRET: ${{ secrets.ANOTHER_SECRET }}
+
+      # --------------------------------------------------
+      # 5️⃣ Run the CI quality‑gate script (now has a real report)
+      # --------------------------------------------------
       - name: Run CI Quality Regression Gate
         run: |
           python eval/ci_gate.py
