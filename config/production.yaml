@@ -1,0 +1,25 @@
+pipeline:
+  name: rbi-regulatory-rag-prod
+  version: "1.0.0"
+
+ingestion:
+  data_dir: "data"
+  chunker: "recursive"
+  chunk_size: 800
+  chunk_overlap: 120
+  collection_name: "rbi_recursive"
+
+retrieval:
+  mode: "dense"
+  top_k: 3
+  refusal_thresholds:
+    dense: 0.52
+    hybrid_rrf: 0.018        # Normalized against max RRF (2 / (k + 1))
+    cross_encoder: 0.52      # Applied after sigmoid(logit)
+
+quality_gates:
+  min_hit_at_3: 0.85         # Baseline achieved: 0.88
+  min_mrr: 0.75              # Baseline achieved: 0.7847
+  min_faithfulness: 0.84     # Baseline achieved: 0.86
+  max_p95_latency_s: 0.50    # Baseline achieved: 0.22s
+  max_cost_per_60_inr: 5.00  # Baseline achieved: ₹3.56
