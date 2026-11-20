@@ -282,7 +282,7 @@ class EvaluationRunner:
         print("--- JUDGE CALIBRATION (20 HUMAN LABELS) ---")
         print(f"  * Agreement     : {calibration_results['percentage_agreement']}% (Target: >85%)")
         print(f"  * Cohen's Kappa : {calibration_results['cohens_kappa']}")
-        print(f"  * Status        : {calibration_results['calibration_status']}")
+        print(f"  * Status        : {calibration_results.get('calibration_status', 'N/A')}")
         print("=" * 65 + "\n")
 
         return report_payload

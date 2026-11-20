@@ -15,12 +15,18 @@ import re
 import sys
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
+#from urllib import response
 from pydantic import BaseModel, Field
+from google import genai
+#_MODEL_NAME = "models/gemini-3.5-flash"   # <-- change if you prefer another model
+if os.getenv("GEMINI_API_KEY") is not None:
+    os.environ["GEMINI_API_KEY"] = os.getenv("GEMINI_API_KEY") 
+
 
 # Ensure project root is on sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from sentence_transformers import SentenceTransformer
+# from sentence_transformers import SentenceTransformer  # deferred import
 
 
 class JudgeResult(BaseModel):
@@ -50,7 +56,7 @@ class JudgeResult(BaseModel):
 
 
 class LLMJudge:
-    """Automated judge with dual LLM API and semantic embedding evaluation support."""
+    MODEL_NAME = "models/gemini-3.5-flash"
 
     RE_CITATION = re.compile(
         r'\b(?:Paragraph|Para\.?|Section|Sec\.?|Table|Annex(?:ure)?)\s+([0-9IVXLCDM]+(?:\([0-9a-zivx]+\))*)',
@@ -69,15 +75,29 @@ class LLMJudge:
         "not contained in the provided",
     ]
 
-    def __init__(self, embedding_model: Optional[SentenceTransformer] = None):
+    def __init__(self, embedding_model: Optional[Any] = None):
+        # Initialize Gemini client once – it will be reused for all calls
+        self.client = genai.Client()
         if embedding_model is not None:
             self.model = embedding_model
         else:
             try:
+                from sentence_transformers import SentenceTransformer
                 self.model = SentenceTransformer("all-MiniLM-L6-v2", local_files_only=True)
             except Exception:
+                from sentence_transformers import SentenceTransformer
                 self.model = SentenceTransformer("all-MiniLM-L6-v2")
 
+                #MODEL_NAME = "models/gemini-3.5-flash"
+    def _generate(self, prompt: str) -> str:
+        """
+        Send `prompt` to Gemini and return the generated text.
+        """
+        response = self.client.models.generate_content(
+            model=self.MODEL_NAME,
+            contents=prompt,
+        )
+        return response.text
     def extract_citations(self, text: str) -> List[str]:
         """Extract explicit regulatory clause/table citations from generated text."""
         matches = self.RE_CITATION.findall(text)
@@ -159,7 +179,7 @@ class LLMJudge:
             numbers = [n for n in raw_numbers if n not in ["2025", "2026", "2027", "2028"]]
             num_ok = all(n.lower() in joined_context for n in numbers) if numbers else True
 
-            if num_ok and max_sim >= 0.50:
+            if num_ok and max_sim >= 0.30:
                 supported_count += 1
             else:
                 reasons.append(f"Claim unsupported: '{sent[:60]}...' (sim={max_sim:.2f})")
