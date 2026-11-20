@@ -276,8 +276,13 @@ class RegulatoryPDFParser:
         return all_clauses
 
 
-def run_cli_ingest(data_dir: str = "data"):
-    """CLI utility function for running ingestion directly."""
+import argparse
+from src.chunker import create_chunker
+from src.vector_store import RegulatoryVectorStore
+
+
+def run_cli_ingest(data_dir: str = "data", chunker_strat: Optional[str] = None, collection_name: Optional[str] = None):
+    """CLI utility function for running ingestion and optional vector indexing."""
     parser = RegulatoryPDFParser()
     clauses = parser.parse_corpus(data_dir)
 
@@ -307,9 +312,29 @@ def run_cli_ingest(data_dir: str = "data"):
         print(f"Clause: {sample.clause_number}")
         print(f"Pages: {sample.page_start} - {sample.page_end}")
         print(f"Text Snippet: {sample.text[:250]}...")
+
+    if chunker_strat:
+        print(f"\n[Ingest] Generating chunks using '{chunker_strat}' strategy...")
+        chunker = create_chunker(chunker_strat)
+        chunks = chunker.chunk_clauses(clauses)
+        print(f"[Ingest] Created {len(chunks)} chunks.")
+        
+        target_collection = collection_name or f"rbi_{chunker_strat}"
+        print(f"[Ingest] Ingesting into collection '{target_collection}'...")
+        vstore = RegulatoryVectorStore(collection_name=target_collection)
+        vstore.ingest_chunks(chunks)
+        print(f"[Ingest] Completed ingestion into collection '{target_collection}'.")
+
     return clauses
 
 
 if __name__ == "__main__":
-    target_dir = sys.argv[1] if len(sys.argv) > 1 else "data"
-    run_cli_ingest(target_dir)
+    cli_parser = argparse.ArgumentParser(description="RBI Regulatory Corpora Ingest and Chunking")
+    cli_parser.add_argument("data_dir", nargs="?", default="data", help="Directory containing PDF files")
+    cli_parser.add_argument("--data_dir", dest="data_dir_flag", default=None, help="Directory containing PDF files (flag)")
+    cli_parser.add_argument("--chunker", dest="chunker", default=None, help="Chunker strategy (fixed, recursive, clause_aware)")
+    cli_parser.add_argument("--collection", dest="collection", default=None, help="Chroma collection name")
+    
+    args = cli_parser.parse_args()
+    chosen_dir = args.data_dir_flag or args.data_dir
+    run_cli_ingest(data_dir=chosen_dir, chunker_strat=args.chunker, collection_name=args.collection)

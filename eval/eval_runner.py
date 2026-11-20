@@ -14,9 +14,12 @@ import json
 import os
 import sys
 import time
+        # ... existing imports ...
+        # We'll add import at top (already after other imports)
+
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Callable
 
 # Ensure project root is on sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -106,13 +109,23 @@ class EvaluationRunner:
         if not first_few_sentences.endswith("."):
             first_few_sentences += "."
 
-        return f"Under {clause_tag} of the {doc_name}, {first_few_sentences}"
+        return f"Under {clause_tag} of {doc_name}, {first_few_sentences}"
+
+
+
+
 
     def run_evaluation(
         self,
         output_report_path: str = "reports/baseline_run_v1.json",
+        query_function: Optional[Callable[[str, int], List[Dict[str, Any]]]] = None,
     ) -> Dict[str, Any]:
-        """Execute full evaluation across all 60 golden set questions."""
+        """Execute full evaluation across all 60 golden set questions.
+
+        If ``query_function`` is provided, it will be used instead of the default
+        vector‑store dense retrieval. This enables hybrid or rerank experiments
+        without modifying the runner's internals.
+        """
         questions = self.load_golden_set()
         start_time = time.time()
 
@@ -124,6 +137,7 @@ class EvaluationRunner:
         judge_results: List[JudgeResult] = []
 
         for idx, item in enumerate(questions, start=1):
+            q_start_time = time.time()
             q_id = item["id"]
             question = item["question"]
             expected = item["expected_answer"]
@@ -131,10 +145,13 @@ class EvaluationRunner:
             target_doc = item.get("source_document", "None")
             q_type = item.get("type", "factual_single_clause")
 
-            # 1. Retrieve top-k chunks from ChromaDB
-            retrieved = self.vector_store.query(question, top_k=self.top_k)
+            # 1️⃣ Retrieve top‑k chunks – use custom query if supplied
+            if query_function:
+                retrieved = query_function(question, top_k=self.top_k)
+            else:
+                retrieved = self.vector_store.query(question, top_k=self.top_k)
 
-            # 2. Compute Retrieval Metrics for this query
+            # 2️⃣ Compute Retrieval Metrics for this query
             h1 = hit_at_k(retrieved, target_clause, k=1)
             h3 = hit_at_k(retrieved, target_clause, k=3)
             h5 = hit_at_k(retrieved, target_clause, k=5)
@@ -153,7 +170,7 @@ class EvaluationRunner:
             contexts = [c["text"] for c in retrieved[:3]]
             generated_answer = self.synthesize_answer(question, retrieved, q_type)
 
-            # 4. Grade with LLM-as-a-Judge
+            # 4. Grade with LLM‑as‑a‑Judge
             judge_res = self.judge.grade(
                 question_id=q_id,
                 question=question,
@@ -165,6 +182,12 @@ class EvaluationRunner:
             )
             judge_results.append(judge_res)
 
+            q_latency = round(time.time() - q_start_time, 4)
+            # Estimate input and output token counts (~4 chars per token)
+            in_text = question + " " + " ".join(contexts)
+            in_tokens = max(1, len(in_text) // 4)
+            out_tokens = max(1, len(generated_answer) // 4)
+
             record = {
                 "id": q_id,
                 "type": q_type,
@@ -173,6 +196,9 @@ class EvaluationRunner:
                 "target_clause": target_clause,
                 "expected_answer": expected,
                 "generated_answer": generated_answer,
+                "latency_s": q_latency,
+                "input_tokens": in_tokens,
+                "output_tokens": out_tokens,
                 "retrieval_metrics": retrieval_meta,
                 "judge_metrics": judge_res.to_dict(),
             }
@@ -192,8 +218,14 @@ class EvaluationRunner:
         citation_pass_rate = sum(1.0 for r in eval_records if r["judge_metrics"]["citation_precision"]) / len(eval_records)
         overall_pass_rate = sum(1.0 for r in eval_records if r["judge_metrics"]["overall_pass"]) / len(eval_records)
 
-        # 7. Run 20-Sample Hand-Label Calibration
+        # 7. Run 20‑Sample Hand‑Label Calibration
         calibration_results = JudgeCalibration.compute_calibration(judge_results)
+
+        # 8. Compute Aggregate Latency and Token Usage
+        latencies = [r["latency_s"] for r in eval_records]
+        total_in_tokens = sum(r["input_tokens"] for r in eval_records)
+        total_out_tokens = sum(r["output_tokens"] for r in eval_records)
+        p95_lat = sorted(latencies)[int(len(latencies) * 0.95)] if latencies else 0.0
 
         # Compile final report payload
         report_payload = {
@@ -212,8 +244,17 @@ class EvaluationRunner:
                 "citation_precision_rate": round(citation_pass_rate, 4),
                 "overall_pass_rate": round(overall_pass_rate, 4),
             },
+            "aggregate_latency": {
+                "p95_s": round(p95_lat, 4),
+                "mean_s": round(sum(latencies) / len(latencies), 4) if latencies else 0.0,
+            },
+            "token_usage": {
+                "input_tokens": total_in_tokens,
+                "output_tokens": total_out_tokens,
+            },
             "judge_calibration_20": calibration_results,
             "detailed_results": eval_records,
+            "per_question": eval_records,
         }
 
         # Save to reports/
@@ -228,7 +269,7 @@ class EvaluationRunner:
         print(f"Report File       : {output_report_path}")
         print(f"Total Questions   : {len(eval_records)}")
         print(f"Total Execution   : {total_duration:.2f} seconds\n")
-        print("--- RETRIEVAL METRICS (CHROMA + CLAUSE-AWARE) ---")
+        print("--- RETRIEVAL METRICS (CHROMA + CLAUSE‑AWARE) ---")
         print(f"  * Hit@1 (Top-1) : {retrieval_summary.mean_hit_at_1 * 100:.2f}%")
         print(f"  * Hit@3 (Top-3) : {retrieval_summary.mean_hit_at_3 * 100:.2f}%")
         print(f"  * Hit@5 (Top-5) : {retrieval_summary.mean_hit_at_5 * 100:.2f}%")
@@ -245,6 +286,7 @@ class EvaluationRunner:
         print("=" * 65 + "\n")
 
         return report_payload
+
 
 
 if __name__ == "__main__":

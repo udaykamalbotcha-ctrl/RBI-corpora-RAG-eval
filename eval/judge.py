@@ -83,9 +83,9 @@ class LLMJudge:
         matches = self.RE_CITATION.findall(text)
         return list(dict.fromkeys(matches))
 
-    def evaluate_refusal(self, question_type: str, answer: str) -> bool:
+    def evaluate_refusal(self, question_type: str, answer: Optional[str]) -> bool:
         """Verify whether an unanswerable question was properly refused, or an in-scope question was answered."""
-        ans_lower = answer.lower()
+        ans_lower = (answer or "").lower()
         is_refusal = any(trigger in ans_lower for trigger in self.REFUSAL_TRIGGERS)
 
         if question_type == "unanswerable_refusal":
