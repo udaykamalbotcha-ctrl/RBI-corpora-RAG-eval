@@ -11,11 +11,10 @@ jobs:
     name: Evaluate RAG Quality Gates
     runs-on: ubuntu-latest
 
+    # <<< KEEP THIS env block <<< 
     env:
-      # Make sure the LLM API key your experiment runner needs is available.
-      # Add the same name(s) you use locally to the repo’s Settings → Secrets → Actions.
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      # (or OPENAI_API_KEY, ANTHROPIC_API_KEY, etc.)
 
     steps:
       # --------------------------------------------------
@@ -42,22 +41,16 @@ jobs:
           pip install -r requirements.txt
 
       # --------------------------------------------------
-      # 4️⃣ **Run the full experiment** (creates the JSON report)
+      # 4️⃣ Run the experiment (produces the JSON report)
       # --------------------------------------------------
       - name: Run experiment (produce report)
         run: |
-          # The script should write its results to `reports/exp_02_recursive.json`
-          # Adjust the command if you use a different entry‑point or arguments.
-          python eval/experiment_runner.py \
-            --config config/production.yaml \
-            --output reports/exp_02_recursive.json \
-            --subset tests/smoke  # optional: a tiny subset for a fast smoke run
-        # If the runner needs any extra env vars (e.g., other API keys), add them here:
-        # env:
-        #   ANOTHER_SECRET: ${{ secrets.ANOTHER_SECRET }}
+          # You can run the full suite or a quick smoke test.
+          # For a quick smoke, add a subset flag if your script supports it.
+          python eval/experiment_runner.py
 
       # --------------------------------------------------
-      # 5️⃣ Run the CI quality‑gate script (now has a real report)
+      # 5️⃣ Run the CI quality‑gate script (checks thresholds)
       # --------------------------------------------------
       - name: Run CI Quality Regression Gate
         run: |
